@@ -1,0 +1,25 @@
+\documentclass{standalone}
+
+\usepackage[usenames,dvipsnames,svgnames,table]{xcolor}
+\usepackage{gastex}
+\usepackage{amsmath}
+
+
+\begin{document}
+
+\begin{picture}(57,18)(-10,0)
+	\gasset{Nadjust=h}
+
+  	\node[Nmarks=i,iangle=225](0)(0,7){$q_0$}
+  	\node[Nmarks=if,iangle=225,fangle=-45](1)(20,7){$q_1$}
+  	\node[Nmarks=f,fangle=-45](2)(40,7){$q_2$}
+
+  	\drawedge(0,1){$b:\varepsilon$}
+  	\drawedge(1,2){$b:\varepsilon$}
+
+	\drawloop[loopdiam=4,loopangle=90](0){$a,b:\varepsilon$}
+	\drawloop[loopdiam=4,loopangle=90](1){$a:i$}
+	\drawloop[loopdiam=4,loopangle=90](2){$a,b:\varepsilon$}
+\end{picture}
+
+\end{document}

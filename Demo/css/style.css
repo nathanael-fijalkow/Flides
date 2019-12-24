@@ -1,0 +1,220 @@
+html, body, div, span, applet, object, iframe,
+h1, h2, h3, h4, h5, h6, p, blockquote, pre,
+a, abbr, acronym, address, big, cite, code,
+del, dfn, em, img, ins, kbd, q, s, samp,
+small, strike, strong, sub, sup, tt, var,
+b, u, i, center,
+dl, dt, dd, ol, ul, li,
+fieldset, form, label, legend,
+table, caption, tbody, tfoot, thead, tr, th, td,
+article, aside, canvas, details, embed,
+figure, figcaption, footer, header, hgroup,
+menu, nav, output, ruby, section, summary,
+time, mark, audio, video {
+    margin: 0;
+    padding: 0;
+    border: 0;
+    font-size: 100%;
+    font: inherit;
+    vertical-align: baseline;
+}
+
+/* HTML5 display-role reset for older browsers */
+article, aside, details, figcaption, figure,
+footer, header, hgroup, menu, nav, section {
+    display: block;
+}
+body {
+    line-height: 1;
+}
+ol, ul {
+    list-style: none;
+}
+blockquote, q {
+    quotes: none;
+}
+blockquote:before, blockquote:after,
+q:before, q:after {
+    content: '';
+    content: none;
+}
+
+table {
+    border-collapse: collapse;
+    border-spacing: 0;
+}
+
+body {
+    font-family: 'PT Sans', sans-serif;
+    min-height: 740px;
+}
+
+h1,h2,h3,h4 {
+    text-align: center;
+}
+
+b, strong { font-weight: bold }
+i, em { font-style: italic }
+
+a {
+    color: inherit;
+    text-decoration: none;
+    padding: 0 0.1em;
+    background: rgba(255,255,255,0.5);
+    text-shadow: -1px -1px 2px rgba(100,100,100,0.9);
+    border-radius: 0.2em;
+
+    -webkit-transition: 0.5s;
+    -moz-transition:    0.5s;
+    -ms-transition:     0.5s;
+    -o-transition:      0.5s;
+    transition:         0.5s;
+}
+
+a:hover,
+a:focus {
+    background: rgba(255,255,255,1);
+    text-shadow: -1px -1px 2px rgba(100,100,100,0.5);
+}
+
+.step {
+    position: relative;
+    width: 900px;
+    padding: 40px;
+    margin: 0;
+
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing:    border-box;
+    -ms-box-sizing:     border-box;
+    -o-box-sizing:      border-box;
+    box-sizing:         border-box;
+
+    font-family: 'PT Serif', georgia, serif;
+    font-size: 30px;
+    line-height: 1.5;
+
+    -webkit-transition: opacity .1s;
+    -moz-transition:    opacity .1s;
+    -ms-transition:     opacity .1s;
+    -o-transition:      opacity .1s;
+    transition:         opacity .1s;
+}
+
+h1 {
+    font-size: 200px;
+}
+
+h2 {
+    font-size: 100px;
+    line-height: 1.1;
+}
+
+h3 {
+    font-size: 40px;
+}
+
+h4 {
+    font-size: 30px;
+}
+
+img {
+    width: 100%;
+}
+
+ul {
+    display: block;
+    list-style-type: disc;
+}
+
+table {
+    width: 100%;
+}
+
+.slides {
+    padding: 0;
+}
+
+/*
+	Slides specific part
+*/
+
+#overview { 
+    display: none 
+}
+
+#flides { 
+    pointer-events: auto 
+}
+
+/*
+ opacity issues for animations (token)
+*/
+
+.token {
+    opacity: 0;
+}
+
+.token_invisible_past {
+    opacity: 0;
+}
+
+.token_invisible_future {
+    opacity: 0;
+}
+
+.token_visible {
+    opacity: 1;
+}
+
+/*
+ opacity issues for steps
+*/
+
+.step[data-fixed="1"] { 
+     opacity: 1;
+}
+
+.step.active { 
+     opacity: 1;
+}
+
+.step {
+     opacity: .1;
+}
+
+/*
+ opacity issues for slide_steps
+*/
+
+.slide_step.slide_step_visible { 
+     opacity: 1;
+}
+
+.slide_step.slide_step_hidden { 
+     opacity: .1;
+}
+
+.slide_step { 
+     opacity: .1;
+}
+
+/*
+ opacity issues for overview
+*/
+
+.flides-on-overview_intermediate .step.seen {
+    opacity: 1;
+}
+
+.flides-on-overview_intermediate .slide_step { 
+     opacity: 1;
+}
+
+.flides-on-overview .step {
+    opacity: 1;
+    cursor: pointer;
+}
+
+.flides-on-overview .slide_step {
+    opacity: 1;
+}

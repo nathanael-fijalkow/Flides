@@ -1,0 +1,177 @@
+<!doctype html>
+
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=1024" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <title>Flides demo</title>
+    
+    <meta name="description" content="Flides demo" />
+    <meta name="author" content="Nathanaël Fijalkow" />
+
+    <link href="http://fonts.googleapis.com/css?family=Open+Sans:regular,semibold,italic,italicsemibold|PT+Sans:400,700,400italic,700italic|PT+Serif:400,700,400italic,700italic" rel="stylesheet" />
+
+    <link href="css/style.css" rel="stylesheet" />
+</head>
+
+<body>
+
+<div id="flides">
+
+    <!-- A slide is a div with class "step". It is located by data-x, data-y, data-z (if you like 3D) and data-scale -->
+    <!-- data-duration="0" means that when going to this slide, one does not have the zoom effect -->
+    <div id="title" class="step" data-duration="0" data-x="-1000" data-y="0">
+	<h2>Flides Demo</h2>
+
+	<br/>
+
+	<!-- A covered element in a slide is called a slide step, it is a div with class "slide_step". -->
+	<div class="slide_step">
+	<h3>Nathana&euml;l Fijalkow</h3>
+	</div>
+
+	<br/>
+	<br/>
+
+	<div class="slide_step">
+	There are three main files: index.html, flides.js and style.css
+	</div>
+
+	<br/>
+	<br/>
+
+	<div class="slide_step">
+	Based on HTML5 and javascript technologies <i>only</i>.
+	</div>
+    </div>
+
+    <div id="navigation" class="step" data-x="0" data-y="0">
+	<h2>Navigation</h2>
+
+	<br/>
+
+	<div class="slide_step">
+	press "right" to uncover the next element of the current slide, or to go to the next slide when they are no further elements to uncover
+	</div>
+
+	<br/>
+
+	<div class="slide_step">
+	press "left" to cover all elements of the current slide, or to go to the previous slide when they are no further elements to cover
+	</div>
+
+	<br/>
+
+	<div class="slide_step">
+	press "down" or "page down" to uncover all elements of the current slide
+	</div>
+    </div>
+
+    <div id="automata" class="step unclickable" data-x="1000" data-y="0">
+	<img id="strip" src="img/strip.svg"/>
+    </div>
+
+    <div id="automata_ex" class="step" data-x="1000" data-y="-60" data-scale=".2">
+	<img id="example_automaton" src="img/fig3.svg"/>
+	<h3>MathJax produces maths: &nbsp;&nbsp; $f : A^* \to \mathbb{N} \cup \{ \infty \}$</h3>
+    </div>
+
+    <div id="automata_counters" class="step" data-x="970" data-y="0" data-scale=".05">
+	<h2>Animations</h2>
+
+	<div class="slide_step">
+	Press "space" for animations
+	<br/>
+
+	<svg width="800" height="300">
+		<g class="token">
+			<text x="0" y="150">word read ""</text>
+			<circle cx="305" cy="146" r="20" fill="red"/>
+			<text x="200" y="280" fill="red">counter value = 0</text>
+		</g>
+		<g class="token">
+			<text x="0" y="150">word read "b"</text>
+			<circle cx="515" cy="146" r="20" fill="red"/>
+			<text x="200" y="280" fill="red">counter value = 0</text>
+		</g>
+		<g class="token">
+			<text x="0" y="150">word read "ba"</text>
+			<circle cx="515" cy="146" r="20" fill="red"/>
+			<text x="200" y="280" fill="red">counter value = 1</text>
+		</g>
+		<g class="token">
+			<text x="0" y="150">word read "baa"</text>
+			<circle cx="515" cy="146" r="20" fill="red"/>
+			<text x="200" y="280" fill="red">counter value = 2</text>
+		</g>
+		<g class="token">
+			<text x="0" y="150">word read "baaa"</text>
+			<circle cx="515" cy="146" r="20" fill="red"/>
+			<text x="200" y="280" fill="red">counter value = 3</text>
+		</g>
+		<g class="token">
+			<text x="0" y="150">word read "baaab"</text>
+			<circle cx="725" cy="146" r="20" fill="red"/>
+			<text x="200" y="280" fill="red">counter value = 3</text>
+		</g>
+		<image x="200" y="0" width="600" height="250" xlink:href="img/fig4.svg">
+	</svg>
+
+	<h3>Use SVG, it's cool!</h3>
+	</div>
+    </div>
+
+    <div id="before_last" class="step" data-x="1020" data-y="0" data-scale=".05">
+	<h2>Overviews</h2>
+	
+	<br/>
+	There are two kinds of overviews:
+	<div class="slide_step">
+	<ul>
+		<li>The "<i>overview_intermediate</i>" displays the slides that have been seen already.
+		<li>The "<i>overview</i>" slide, which is the last. Go to the overview with "enter".
+	</ul>
+	</div>
+
+	<br/>
+
+	<div class="slide_step">
+	At any moment, start over with "backspace".
+	From the overview, click on a slide to go to it!
+	</div>
+
+	<div class="slide_step">
+	Do you want to see a useless slide? <a href="#always_here">Click here</a>!
+	</div>
+    </div>
+
+    <!-- data-fixed="1" means that this slide is excluded from the general flow and can only be accessed by clicking on it or through a hyperlink -->
+    <div id="always_here" class="step" data-fixed="1" data-duration="0" data-x="0" data-y="800" data-z="0" data-scale="1">
+	<h2>This slide is always here</h2>
+
+	<br/><br/>
+	<a href="#before_last">Go somewhere interesting</a>!
+    </div>
+
+
+    <div id="overview_intermediate" class="step unclickable" data-x="1000" data-y="-30" data-scale=".15">
+    </div>
+
+    <div id="overview" class="step" data-duration="0" data-x="0" data-y="0" data-scale="2">
+    </div>
+
+</div>
+
+<script src="js/flides.js"></script>
+<script>flides().init();</script>
+
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+  tex2jax: {inlineMath: [['$','$'], ['\\(','\\)']]}
+});
+</script>
+<script src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+</body>
+</html>

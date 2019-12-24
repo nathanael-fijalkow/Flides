@@ -1,0 +1,26 @@
+\documentclass{standalone}
+
+\usepackage[usenames,dvipsnames,svgnames,table]{xcolor}
+\usepackage{gastex}
+
+\newcommand{\smaller}{\mathrm{S}}
+\newcommand{\bigger}{\mathrm{B}}
+\newcommand{\start}{\mathrm{start}}
+\newcommand{\ed}{\mathrm{end}}
+
+\begin{document}
+
+\begin{picture}(52,17)(-10,0)
+	\gasset{Nadjust=h}
+
+  	\node[Nmarks=i](0)(0,7){$q_0$}
+  	\node[Nmarks=f,fangle=0](1)(30,7){$q_1$}
+
+  	\drawedge[curvedepth=3](0,1){$a$}
+  	\drawedge[curvedepth=3](1,0){$b$}
+
+	\drawloop[loopdiam=4,loopangle=90](0){$b$}
+	\drawloop[loopdiam=4,loopangle=90](1){$a$}
+\end{picture}
+
+\end{document}

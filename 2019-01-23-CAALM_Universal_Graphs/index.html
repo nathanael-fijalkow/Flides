@@ -1,0 +1,335 @@
+<!doctype html>
+
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=1024" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <title>Universal graphs for parity and mean payoff games</title>
+    
+    <meta name="description" content="Intro" />
+    <meta name="author" content="Nathana&euml;l Fijalkow" />
+
+    <link href="http://fonts.googleapis.com/css?family=Open+Sans:regular,semibold,italic,italicsemibold|PT+Sans:400,700,400italic,700italic|PT+Serif:400,700,400italic,700italic" rel="stylesheet" />
+
+    <link href="css/style.css" rel="stylesheet" />
+</head>
+
+<body>
+
+<div id="flides">
+
+    <div id="overview_start" class="step" data-x="0" data-y="0" data-scale="3">
+    </div>
+
+    <div id="name" class="step" data-fixed="1" data-duration="0" data-x="0" data-y="-800">
+	<h2>Nathana&euml;l Fijalkow</h2>
+	<h3>CNRS, LaBRI, Bordeaux, and The Alan Turing Institute of data science, London</h3>
+    </div>
+
+    <div id="title_workshop" class="step" data-fixed="1" data-duration="0" data-x="0" data-y="-400">
+	<h2>Universal graphs for parity and mean payoff games</h2>
+    </div>
+
+    <div id="intro1" class="step" data-x="0" data-y="50">
+	<h3>Main objectives</h3>
+	<br/>
+	<ul>
+		<li> introduce the notion of <b>universal graphs</b> and their applications to games
+		<li> give a <blue>simple and unified</blue> presentation of all three quasipolynomial time algorithms for parity games
+		<li> construct <green>new algorithms</green> for mean payoff games
+		<li> show <red>tight lower bounds</red> for the construction of algorithms in this framework for both parity and mean payoff games
+	</ul>
+    </div>
+
+
+    <div id="intro2" class="step" data-x="0" data-y="450">
+	Reports on
+	<br/>
+	<ul>
+<!--
+		<li><a href="https://arxiv.org/abs/1801.09618">F.</a>: define universal trees, lower bounds for universal trees
+-->
+		<li><a href="https://arxiv.org/abs/1807.10546">Czerwi&#324;ski, Daviaud, F., Jurdzi&#324;ski, Lazi&#263;, and Parys</a> (SODA'19): reduce separating automata to universal trees
+		<li><a href="https://arxiv.org/abs/1810.05106">Colcombet, F.</a>: introduce universal graphs, equivalence with separating automata
+		<li><a href="https://arxiv.org/abs/1812.07072">F., Gawrychowski, Ohlmann</a>: tight upper and lower bounds of universal graphs for mean payoff
+	</ul>
+
+    </div>
+
+    <div id="blog" class="step" data-fixed="1" data-duration="0" data-x="0" data-y="700">
+	<h2><a href="http://games-automata-play.github.io/">Research blog</a></h2>
+    </div>
+
+
+    <div id="parity_games" class="step" data-duration="0" data-x="-1400" data-y="-600" data-scale=".7">
+	<h2>Parity games</h2>
+	<br/>
+	<center><img id="parity_game" src="img/parity_game.png"></img></center>
+	<red>Parity</red>: the maximal priority appearing infinitely often is <blue>even</blue>
+    </div>
+
+    <div id="parity_question" class="step" data-x="-1400" data-y="-100" data-scale=".7">
+	<h3>Solving parity games</h3>
+
+	<center>
+	<br/>
+	<b>INPUT:</b> A parity game and initial vertex $v_0$<br/>
+	<b>QUESTION:</b> Does Eve have a winning strategy from $v_0$?	
+	</center>
+	<br/>
+	<red>Parameters</red>: $n$ (number of vertices) and $d$ (number of priorities)
+	<br/>
+	<br/>
+	<blue>Best algorithms</blue> (Calude, Jain, Khoussainov, Li, and Stephan <green>STOC best paper award</green> 2017, then Jurdzi&#324;ski and Lazi&#263; 2017, then Lehtinen 2018)
+	$$O(n^{\log(d)}) = O(d^{\log(n)})$$
+    </div>
+
+    <div id="care" class="step" data-x="-1400" data-y="250" data-scale=".7">
+	<h3>Why might you care?</h3>
+	<br/>
+	Parity games play a crucial role in:
+	<ul>
+		<li><red>LTL synthesis</red>
+		<li><blue>automata and logic over infinite trees</blue> (emptiness games)
+		<li><green>modal mu-calculus</green> (model-checking games)
+	</ul>
+	<br/>
+	<br/>
+	But also complexity: in $\textrm{NP} \cap \textrm{coNP}$, not known to be in $\textrm{P}$!
+    </div>
+
+
+
+    <div id="mp_games" class="step" data-duration="0" data-x="-800" data-y="-600" data-scale=".7">
+	<h2>Mean payoff games</h2>
+	<br/>
+	<center><img src="img/mp_game.png"></img></center>
+	<red>Mean payoff</red>: the average limit is <blue>non negative</blue>
+    </div>
+
+    <div id="mp_question" class="step" data-x="-800" data-y="-100" data-scale=".7">
+	<h3>Solving mean payoff games</h3>
+
+	<center>
+	<br/>
+	<b>INPUT:</b> A mean payoff game and initial vertex $v_0$<br/>
+	<b>QUESTION:</b> Does Eve have a winning strategy from $v_0$?	
+	</center>
+	<br/>
+	<red>Parameters</red>: $n$ (number of vertices), $m$ (number of edges), $B$ (largest weight), $k$ (number of different weights)
+	<br/>
+	<br/>
+	<blue>Best algorithms</blue> (Zwick and Paterson 1996, Brim et al 2011)
+	$$O(n m B)$$
+    </div>
+
+    <div id="parity_as_mp" class="step" data-x="-800" data-y="250" data-scale=".7">
+	<h3><red>Parity</red> games as <blue>mean payoff</blue> games</h3>
+	<br/>
+	<center>
+	<red>Parity</red>: the maximal priority appearing infinitely often is <green>even</green>
+	<blue>Mean payoff</blue>: the average limit is <green>non negative</green>
+	</center>
+	<br/>
+	Replace priority $p$ by $(-n)^p$:
+	<br/>
+	<ul>
+		<li> priority $1$ becomes weight $-n$
+		<li> priority $2$ becomes weight $n^2$
+		<li> priority $3$ becomes weight $-n^3$
+	</ul>
+	<b>Key idea</b>: in a cycle (of length $n$) only the largest weight matters 
+    </div>
+
+    <div id="positionality" class="step" data-x="-1100" data-y="650" data-scale=".7">
+	<green>Positional</green> strategy
+	$$\sigma : V \to E$$
+	<b>Theorem:</b> If Eve has a winning strategy in a mean payoff game, she also has a positional winning strategy. The same holds for Adam.
+	<center><img id="mp_game_solved" src="img/mp_game_solved.png"></img></center>
+    </div>
+
+
+
+
+
+    <div id="overview_int" class="step" data-x="0" data-y="0" data-scale="3">
+    </div>
+
+
+
+
+    <div id="universal_graph" class="step" data-duration="0" data-x="750" data-y="-600" data-scale=".7">
+	<h2>Universal graphs</h2>
+	(for parity)
+	<br/>
+	<b>Definition:</b> A graph <red>satisfies parity</red> if all paths in the graph satisfy parity (eq: all cycles have maximal even priority)
+	<br/>
+
+	<div class="slide_step">
+	<b>Definition:</b> A (graph) <green> homomorphism</green> is $\phi : V \to V'$ st
+	$$(v,i,v') \in E \Longrightarrow (\phi(v),i,\phi(v')) \in E$$
+	</div>
+
+	<div class="slide_step">
+	<b>Definition:</b> A graph $U$ is <blue>$(n,d)$-universal</blue> if
+	<ul>
+		<li>it satisfies parity
+		<li>all graphs of size $n$ with $d$ priorities satisfying parity can be homomorphically mapped into $U$ 
+	</ul>
+	</div>
+    </div>
+
+    <div id="reduction" class="step" data-x="750" data-y="-150" data-scale=".7">
+	<h2>Reduction to safety games</h2>
+	<br/>
+	Let $G$ parity game, $U$ universal graph.
+	Construct safety game $G \times U$: <red>Eve chooses the evolution in $U$</red>
+	<br/>
+	<br/>
+	<b>Lemma:</b> Eve has a winning strategy in $G$ if and only if she has a strategy to play forever in $G \times U$
+	<br/>
+	<br/>
+	<blue>Algorithm:</blue> Solve the safety game $G \times U$, complexity $m \cdot |U|$
+    </div>
+
+    <div id="proof" class="step" data-x="750" data-y="150" data-scale=".3">
+	<b>Lemma:</b> Eve has a winning strategy in $G$ if and only if she has a strategy to play forever in $G \times U$
+	<br/>
+	<br/>
+	<b>Proof:</b>
+	<br/>
+	<i>If Eve wins in $G$</i> she has a positional strategy. Then $G_{\sigma}$ embeds into $U$, induces a winning strategy in $G \times U$
+	<br/>
+	<i>If Eve wins in $G \times U$</i> then this strategy is winning in $G$ because $U$ satisfies parity
+    </div>
+
+    <div id="main_results" class="step" data-duration="0" data-x="750" data-y="400" data-scale=".7">
+	<h2>Results for parity games</h2>
+	<br/>
+	<b>Theorem:</b> (Czerwi&#324;ski, Daviaud, F., Jurdzi&#324;ski, Lazi&#263;, and Parys)
+	<ul>
+		<li>There exists a quasipolynomial universal graph (<blue>three constructions, one for each quasipolynomial time algorithm</blue>)
+		<li>All universal graphs have at least quasipolynomial size
+	</ul>
+    </div>
+
+    <div id="universal_trees" class="step" data-duration="0" data-x="450" data-y="770" data-scale=".2">
+	<h2>Universal trees</h2>
+	<br/>
+	<b>Definition:</b> A tree is <red>$(n,h)$-universal</red> if it embeds all trees of height $h$ with $n$ leaves
+	<br/>
+	<br/>
+	<center>
+	<img id="universal_tree" src="img/universal_tree.png"></img>
+	$\qquad$
+	<img id="embedding_example" src="img/embedding_example.png"></img>
+	</center>
+	<br/>
+
+	<div class="slide_step">
+	<b>Fact:</b> Universal trees are exactly maximal universal graphs!
+	</div>
+    </div>
+
+    <div id="separating_automata" class="step" data-x="700" data-y="770" data-scale=".2">
+	<h2>Separating automata</h2>
+	<br/>
+$$\text{Parity}_n = \bigcup \left\{ \text{Paths}(G) : \begin{array}{c} G \text{ is an } (n,d)\text{-graph} \\ \text{satisfying parity}\end{array} \right\}.$$
+	<br/>
+	<b>Definition:</b> A deterministic <red>safety</red> automaton $\mathcal{A}$ reading $[1,d]^\omega$ is <blue>separating</blue> if
+	$$\text{Parity}_n \subseteq L(\mathcal{A}) \subseteq \text{Parity}$$
+    </div>
+
+    <div id="equivalence" class="step" data-x="950" data-y="770" data-scale=".2">
+	<h2>Equivalence results</h2>
+	<b>Theorem:</b> (Colcombet, F.)
+	<ul>
+		<li>A <red>universal graph</red> induces a <blue>separating automaton</blue> of the same size
+		<li>A <blue>separating automaton</blue> induces a <red>universal graph</red> of the same size
+	</ul>
+	<br/>
+	This holds for any <green>positional</green> condition (ex: parity and mean payoff)!
+	<br/> 
+    </div>
+
+
+
+
+
+
+    <div id="overview_int" class="step" data-x="0" data-y="0" data-scale="3">
+    </div>
+
+
+
+
+    <div id="universal_graph_mp" class="step" data-duration="0" data-x="1400" data-y="-600" data-scale=".7">
+	<h2>Universal graphs</h2>
+	(for mean payoff)
+	<br/>
+	<b>Definition:</b> A graph <red>satisfies mean payoff</red> if all paths in the graph satisfy mean payoff (eq: no negative cycles)
+	<br/>
+
+	<div class="slide_step">
+	<b>Definition:</b> A (graph) <green> homomorphism</green> is $\phi : V \to V'$ st
+	$$(v,w,v') \in E \Longrightarrow (\phi(v),w,\phi(v')) \in E$$
+	</div>
+
+	<div class="slide_step">
+	<b>Definition:</b> A graph $U$ is <blue>$(n,W)$-universal</blue> if
+	<ul>
+		<li>it satisfies mean payoff
+		<li>all graphs of size $n$ with weights in $W$ satisfying mean payoff can be homomorphically mapped into $U$ 
+	</ul>
+	</div>
+    </div>
+
+    <div id="naive" class="step" data-x="1400" data-y="-100" data-scale=".7">
+	<center>
+	<img id="linear_graph" src="img/linear_graph.png"></img>
+	</center>
+	<b>Lemma:</b> (parameter: <blue>maximal weight</blue> $B$)
+	<br/>
+	This graph U is $(n,[-B,B])$-universal:
+	$$\phi : G \to U \text{ defined by } \phi(v) = \text{dist}(v_0,v)$$
+	<red>Key idea</red>: if $(v,w,v') \in E$, then $\text{dist}(v_0,v') \le \text{dist}(v_0,v) + w$
+	<br/>
+	<b>Corollary:</b> Algorithm $O(n m B)$ (matches best known so far)	
+    </div>
+
+    <div id="main_results_mp" class="step" data-duration="0" data-x="1400" data-y="450" data-scale=".8">
+	<h2>Results for mean payoff games</h2>
+	<b>Theorem:</b> (parameter: <blue>maximal weight</blue> $B$)
+	<ul>
+		<li>There exists a universal graph of size $2n (nB)^{1 - 1/n}$
+		<li>All universal graphs have size at least $B^{1 - 1/n}$
+	</ul>
+	<b>Corollary:</b> Algorithm $O(n m (nB)^{1 - 1/n})$
+	<br/>
+	<br/>
+	<b>Theorem:</b> (parameter: <red>number of weights</red> $k$)
+	<ul>
+		<li>There exists a universal graph of size $n^k$
+		<li>All universal graphs have size at least $n^{k - 2}$
+	</ul>
+	<b>Corollary:</b> Algorithm $O(m n^k)$
+    </div>
+
+    <div id="overview" class="step" data-duration="0" data-x="0" data-y="0" data-scale="3">
+    </div>
+
+</div>
+
+<script src="js/flides.js"></script>
+<script>flides().init();</script>
+
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+  tex2jax: {inlineMath: [['$','$'], ['\\(','\\)']]}
+});
+</script>
+<script src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+</body>
+</html>

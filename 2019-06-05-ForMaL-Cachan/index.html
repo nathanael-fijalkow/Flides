@@ -1,0 +1,574 @@
+<!doctype html>
+
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=1024" />
+    <meta name="apple-mobile-web-app-capable" content="no" />
+    <title>Program Synthesis</title>
+    
+    <meta name="description" content="Intro" />
+    <meta name="author" content="Nathana&euml;l Fijalkow" />
+
+    <link href="http://fonts.googleapis.com/css?family=Open+Sans:regular,semibold,italic,italicsemibold|PT+Sans:400,700,400italic,700italic|PT+Serif:400,700,400italic,700italic" rel="stylesheet" />
+
+    <link href="css/style.css" rel="stylesheet" />
+</head>
+
+<body>
+
+<div id="flides">
+
+    <div id="overview_start" class="step" data-x="0" data-y="0" data-scale="3">
+    </div>
+
+    <div id="name" class="step" data-fixed="1" data-duration="0" data-x="0" data-y="-780">
+	<h2>Nathana&euml;l Fijalkow</h2>
+	<h3>CNRS, LaBRI, Bordeaux, and The Alan Turing Institute of data science, London</h3>
+    </div>
+
+    <div id="title" class="step" data-fixed="1" data-duration="0" data-x="0" data-y="-400">
+	<h2>Program Synthesis</h2>
+	<h3>in the learning era</h3>
+    </div>
+
+<!--
+    <div id="intro" class="step" data-x="0" data-scale=".7" data-y="200">
+	<h3>Combining FM and ML</h3>
+	<br/>
+        <ul>
+		<li>use <green>formal methods</green> to describe the <red>search problem</red>
+		and the <red>search procedure</red>
+		<li>use <green>machine learning</green> to guide the search, describing <blue>heuristics</blue>
+	</ul>
+	<br/>
+	<u>Key advantage</u>: do not give up on <b>correctness</b>!
+    </div>
+-->
+
+    <div id="intro" class="step" data-x="0" data-scale=".7" data-y="0">
+	<h3>Two choices</h3>
+	<br/>
+	<b>Program space</b>:
+        <ul>
+		<li>models from <blue>formal languages</blue> (automata, grammars)
+		<li>models from <red>machine learning</red> (linear models, neural networks)
+		<li>more <green>syntactically structured programs</green>
+	</ul>
+	<br/>
+	<b>Specification</b>:
+        <ul>
+		<li>set of I/O examples (<red>supervised</red> or <green>unsupervised</green>)
+		<li>logical formulas over I/O or traces
+	</ul>
+    </div>
+
+    <div id="overview_int" class="step" data-x="0" data-y="0" data-scale="3">
+    </div>
+
+
+<!-- Part O - Examples -->
+
+    <div id="part_0" class="step" data-fixed="1" data-duration="0" data-x="-1200" data-y="-900">
+	<h2>Examples</h2>
+    </div>
+
+    <div id="FlashFill" class="step" data-duration="0" data-x="-1500" data-y="-700" data-scale=".5">
+	<h3>FlashFill (Gulwani, Microsoft Research)</h3> 
+	<br/>
+	Included in Microsoft Excel 2013!
+	<center>
+	<img id="FlashFill1" src="img/FlashFill.png"></img>
+	<img id="FlashFill2" src="img/FlashFill2.png"></img>
+	</center>
+	<blue>Correct with one I/O in 60% of the cases!</blue>
+    </div>
+
+    <div id="HackersDelight" class="step" data-duration="0" data-x="-900" data-y="-700" data-scale=".5">
+	<h3>Hackers' Delight benchmarks</h3>
+	<br/>
+	Can we compute the average of two numbers in 32 bits without using 64 bits?
+	<red>Problem</red>: $x + y$ is <red>prohibited</red>!
+	<br/>	
+	<br/>
+	<div class="slide_step">
+	<green>A solution</green>: $$(x\ \&\ y) + (x\ \wedge\ y) >> 1$$
+	where $\&$ is bitwise <blue>and</blue>, $\wedge$ is bitwise <blue>xor</blue>, and $>>$ is <blue>right shift</blue>.
+	</div>
+    </div>
+
+    <div id="Rewriting" class="step" data-duration="0" data-x="-1500" data-y="-450" data-scale=".5">
+	<h3>Legacy code rewriting at Siemens</h3> 
+	<br/>
+	Some old softwares use (<green>assembly type</green>) code which can be executed but whose documentation (and semantics!) has been lost.
+	<br/>
+	<br/>
+	<red>Task</red>: rewrite the programs  
+    </div>
+
+    <div id="ProbProg" class="step" data-duration="0" data-x="-900" data-y="-450" data-scale=".5">
+	<h3>Probabilistic programming</h3> 
+	<br/>
+	A program defines a <blue>parameterised</blue> family of <green>distributions</green>.
+	<br/>
+	<br/>
+	<red>Inference task</red>: find parameters to match a dataset
+    </div>
+
+    <div id="overview_int" class="step" data-x="0" data-y="0" data-scale="3">
+    </div>
+
+<!-- Part I - Automata learning -->
+
+    <div id="part_1" class="step" data-fixed="1" data-duration="0" data-x="-1200" data-y="-200">
+	<h2>Automata Learning</h2>
+    </div>
+
+    <div id="automata_learning_setting" class="step" data-duration="0" data-x="-600" data-y="-200" data-scale=".7">
+	<h3>The setting</h3> 
+	<br/>
+	<b>Specification</b>: a function $f : A^* \to \mathbb{R}$
+	<br/>
+	<b>Program space</b>: weighted automata	
+    </div>
+
+    <div id="weighted_automata" class="step" data-duration="0" data-x="-1500" data-y="100" data-scale=".5">
+	<h3>Weighted automata</h3> 
+
+	<svg width="800" height="350">
+		<g class="token">
+			<text x="0" y="200">word read ""</text>
+			<text x="300" y="320" fill="red">1</text>
+			<text x="650" y="320" fill="red">0</text>
+		</g>
+		<g class="token">
+			<text x="0" y="200">word read "b"</text>
+			<text x="295" y="320" fill="red">-1</text>
+			<text x="645" y="320" fill="red">1</text>
+		</g>
+		<g class="token">
+			<text x="0" y="200">word read "bb"</text>
+			<text x="290" y="320" fill="red">1</text>
+			<text x="640" y="320" fill="red">3 - 1 = 2</text>
+		</g>
+		<g class="token">
+			<text x="0" y="200">word read "bba"</text>
+			<text x="285" y="320" fill="red">1 + 4 = 5</text>
+			<text x="635" y="320" fill="red">0</text>
+		</g>
+		<g class="token">
+			<text x="0" y="200">word read "bbab"</text>
+			<text x="280" y="320" fill="red">-5</text>
+			<text x="630" y="320" fill="red">5</text>
+		</g>
+		<image x="200" y="0" width="600" height="300" xlink:href="img/wfa.svg">
+	</svg>
+	
+	<br/>
+	<h3>Induces&nbsp;&nbsp; $f : A^* \to \mathbb{R}$</h3>
+    </div>
+
+    <div id="hankel_matrix" class="step" data-x="-1050" data-y="100" data-scale=".5">
+	<h3>Hankel matrix</h3> 
+	<br/>
+	Let $f : A^* \to \mathbb{R}$. 
+	The Hankel matrix of $f$ is the bi-infinite matrix $H_f \in \mathbb{R}^{A^* \times A^*}$ defined by 
+	$$H_f(u,v) = f(uv)$$
+	<div class="slide_step">
+	<b>Theorem</b>: (Fliess '74)
+	<ul>
+		<li> Any automaton recognising $f$ has <green>at least</green> $\text{rank}(H_f)$ many states,
+		<li> <blue>There <red>effectively!</red> exists</blue> an automaton recognising $f$ with $\text{rank}(H_f)$ many states.
+	</ul>
+	</div>
+    </div>
+
+    <div id="angluin_style" class="step" data-x="-600" data-y="100" data-scale=".5">
+	<h3>Angluin's style learning</h3> 
+	<br/>
+	A <red>learner</red> and a <green>teacher</green>
+	<br/>
+	<br/>
+	<ul>
+		<li> <blue>membership</blue>: the learner can choose $w \in A^*$ and ask the teacher for $f(w)$
+		<li> <blue>equivalence</blue>: the learner can submit a hypothesis automaton $\mathcal{A}$ to the teacher, who agrees or gives a word $w$ such that
+		$f(w) \neq \mathcal{A}(w)$
+	</ul>
+    </div>
+
+    <div id="ptime_algorithm" class="step" data-duration="0" data-x="-1500" data-y="350" data-scale=".5">
+	<h3>A polynomial time algorithm</h3> 
+	<br/>
+	<b>Theorem</b>: (Beimel, Bergadano, Bshouty, Kushilevitz, Varricchio, 2000) Weighted automata are <red>efficiently</red> learnable.
+	<br/>
+	<green>Key idea</green>: use a partial Hankel matrix as <blue>data structure</blue>!
+	<br/>
+	<br/>
+	<b>Invariant</b>: maintain $X,Y$ set of words such that $H_f(X,Y)$ has full rank 
+    </div>
+
+    <div id="ptime_algorithm2" class="step" data-x="-1050" data-y="350" data-scale=".5">
+	<h3>Extending the matrix</h3> 
+	<br/>
+	Learning procedure:
+	<ul>
+		<li> Using $H_f(X,Y)$, construct a hypothesis automaton $\mathcal{A}$ and submit it to the teacher
+		<li> Using the counter-example, construct $X' = X \cup \{u\}$ and $Y' = Y \cup \{v\}$ such that $H_f(X',Y')$ has full rank
+	</ul>
+    </div>
+
+    <div id="applications_automata_learning" class="step" data-x="-600" data-y="350" data-scale=".5">
+	<h3>Applications</h3> 
+	<br/>
+	<ul>
+		<li> Best algorithm to learn <red>deterministic (boolean) automata</red>
+		<li> Best algorithm to learn <blue>boolean circuits</blue>
+		<li> Best algorithm to learn <green>polynomials</green>
+		<li> Best algorithm to learn <magenta>boolean formulas</magenta>
+	</ul>
+	<br/>
+	<center><img src="img/weighted_automata_paper.png"></img></center>
+    </div>
+
+    <div id="anchored_pfa" class="step" data-duration="0" data-x="-1500" data-y="650" data-scale=".5">
+	<h3>(Generative) probabilistic automata</h3> 
+	<br/>
+	<center><img src="img/pa.svg"></img></center>
+	<br/>
+	Induces a <green>distribution</green> over finite words $\mathbb{P} : A^* \to [0,1]$
+    </div>
+
+    <div id="anchor" class="step" data-x="-1050" data-y="650" data-scale=".5">
+	<h3>The anchor assumption</h3> 
+	<br/>
+	<b>Open problem</b>: efficiently learn probabilistic automata
+	<br/>
+	If we learn it <green>as a weighted automaton</green>, the learned object is <blue>not probabilistic</blue>!
+	<br/>
+	<br/>
+	<div class="slide_step">
+	<b>Anchor assumption</b>: for every state $q$, there exists a word (anchor) $w$ which characterises $q$
+	<br/>
+	<br/>
+	<b>Theorem</b>: (Arora, Ge, Kannan, and Moitra OR Stratos, Collins and Hsu) Probabilistic anchored automata are <red>efficiently</red> learnable
+	</div>
+    </div>
+
+    <div id="pcfg" class="step" data-x="-600" data-y="650" data-scale=".5">
+	<h3>Probabilistic context-free grammars</h3> 
+	<br/>
+	$$S \rightarrow \frac{1}{2} SS + \frac{1}{3} a\ S\ b + \frac{1}{6} b\ S\ a \qquad ; \qquad S \rightarrow \varepsilon$$
+	<div class="slide_step">
+	<b>Open problem</b>: efficiently learn probabilistic context-free grammars <green>from words</green>
+	<br/>
+	<br/>
+	It is easy if we observe <blue>derivations</blue> (trees)
+	<br/>
+	<br/>
+	</div>
+	<div class="slide_step">
+	<b>Theorem</b>: (F., Clark) Probabilistic anchored context-free grammars are <red>efficiently</red> learnable
+	</div>
+    </div>
+
+    <div id="overview_int" class="step" data-x="0" data-y="0" data-scale="3">
+    </div>
+
+    <div id="bonus" class="step" data-x="0" data-y="1400" data-duration="0">
+	<h3>Puzzle</h3> 
+	<br/>
+	<ul>
+		<li>I have a biassed coin $(p,1-p)$
+		<li>you pick a biassed coin $(p',1 - p')$
+		<li>I toss my coin
+		<li>you toss your coin until you get the same outcome as mine
+	</ul>
+	<br/>
+	Your score is the (expected) <red>number of tosses</red>
+	<br/>
+	<br/>
+	<div class="slide_step">
+	<h3>How should you choose $p'$ <br/>to minimise the score?</h3> 
+	</div>
+    </div>
+
+    <div id="overview_int" class="step" data-x="0" data-y="0" data-scale="3">
+    </div>
+
+<!-- Part II - SyGus -->
+
+    <div id="part_2" class="step" data-fixed="1" data-duration="0" data-x="1000" data-y="-800">
+	<h2>Syntax-guided Synthesis</h2>
+    </div>
+
+    <div id="sygus_setting" class="step" data-duration="0" data-x="1000" data-y="-550" data-scale=".5">
+	<h3>The SyGuS setting</h3> 
+	<br/>
+	<b>Program space</b>: a context-free grammar generates suitable programmes	
+	<br/>
+	<b>Specification</b>: an <red>unknown</red> function $f : I \to O$
+	<center>
+	<img src="img/CACM.png"></img>
+	</center>
+    </div>
+
+    <div id="difficulty" class="step" data-x="550" data-y="-300" data-scale=".5">
+	The problem is:
+	$$\exists E \text{ expression}, \forall x \in I, E(x) = f(x)$$
+	<div class="slide_step">
+	<b>Subtask</b>: Given $E$, check whether $\forall x,\ E(x) = f(x)$: 
+	<br/>
+	<green>easy</green> using a <blue>SAT / SMT solver</blue>
+	<br/>
+	<br/>
+	</div>
+	<div class="slide_step">
+	<b>Main question</b>: <red>How do we enumerate expressions</red>?
+	<center>
+	<img src="img/SyGuS.png"></img>
+	</center>	
+	</div>
+    </div>
+
+    <div id="architecture" class="step" data-x="1000" data-y="-300" data-scale=".5">
+	<h3>A solution framework</h3> 
+	<br/>
+	A <red>learner</red> and a <green>teacher</green> maintain a set of I/O
+	<ul>
+		<li> the learner chooses an expression consistent with the set of I/O
+		<li> the teacher rules out the given expression by expanding the set of I/O
+	</ul>
+    </div>
+
+    <div id="weaknesses" class="step" data-x="1450" data-y="-300" data-scale=".5">
+	<h3>Weaknesses of the SyGuS framework</h3> 
+	<br/>
+	<ul>
+		<li> If the CFG is too large, <green>exploration</green> becomes very <red>ineffective</red>
+		<li> The set of programs is not very well described by a CFG: most expressions are <blue>rubbish</blue>
+	</ul>	
+	
+    </div>
+
+    <div id="deepcoder" class="step" data-x="550" data-y="0" data-scale=".5">
+	<center>
+	<img src="img/deepcoder.png"></img>
+	</center>
+    </div>
+
+    <div id="pbe" class="step" data-duration="0" data-x="1000" data-y="0" data-scale=".5">
+	<h3>Programming by example</h3>
+	<br/>
+	<b>INPUT</b>: <green>a few*</green> I/O
+	<br/>
+	<b>OUTPUT</b>: synthetise a program
+	<br/>
+	<br/>
+	a few = 5
+    </div>
+
+    <div id="dsl" class="step" data-x="1450" data-y="0" data-scale=".5">
+	<h3>The program space</h3> 
+	<br/>
+	<center>
+	<img id="examples" src="img/examples.png"></img>
+	</center>
+	<blue>38</blue> high-level functions operating on lists in <red>[-255,255]</red>
+    </div>
+
+    <div id="closer_look" class="step" data-duration="0" data-x="550" data-y="300" data-scale=".5">
+	<h3>DeepCoder's <u>line of attack</u></h3> 
+	<br/>
+	<ul>
+		<li>train a model using programs and I/O. 
+		The model reads I/O and predicts <blue>which functions appear</blue> in the target program
+		<li>given I/O, use the model as an oracle to guide the search using a <green>simple DFS</green>
+	</ul>
+	<br/>
+	<div class="slide_step">
+	<b>Idea</b>: the model learns
+	<ul>
+		<li><red>patterns</red> relating I/O to programs
+		<li><orange>biasses</orange> on the distribution of programs
+	</ul> 
+	</div>
+    </div>
+
+    <div id="synthetic" class="step" data-x="1000" data-y="300" data-scale=".5">
+	<h3>Major problem</h3>
+	<br/>
+	<red>We do NOT have data!</red>
+	<br/>
+	<green>Solution</green>: <blue>synthetic</blue> training data
+	<center>
+	<img src="img/strategy.png"></img>
+	</center>
+    </div>
+
+    <div id="branching" class="step" data-x="1450" data-y="300" data-scale=".5">
+	<h3>This talk is branching</h3>
+	<br/>
+	<ul>
+		<li>On the importance of <red>data generation</red> and the use of formal methods for it
+		<li>On the underlying <green>algorithmic foundations</green> of these techniques
+	</ul>
+    </div>
+
+    <div id="overview_int2" class="step" data-x="900" data-y="300" data-scale="1.3">
+    </div>
+
+
+<!-- Branch 1 - data generation -->
+
+    <div id="methods" class="step" data-duration="0" data-x="550" data-y="500" data-scale=".2">
+	<h3>Program generation</h3>
+	<ul>
+		<li>Remove <blue>syntactically inept</blue> programs 
+		<li>Remove (probably) <red>equivalent</red> programs 
+	</ul>
+	<br/>
+	<div class="slide_step">	
+	<h3>I/O generation</h3>
+	<b>Problem</b>: given a program, find interesting I/O
+	<br/>
+	<br/>
+	<ul>
+		<li>Domain restriction (original DeepCoder approach)
+		<li>Non-uniform sampling
+		<li>Constraint-based (SMT solver z3)
+		<li>Semantic variation
+	</ul>
+	</div>
+    </div>
+
+    <div id="methods_zoom" class="step" data-x="750" data-y="500" data-scale=".2">
+	<center>
+	<img id="method" src="img/method.png"></img>
+	</center>
+    </div>
+
+    <div id="distribution" class="step" data-duration="0" data-x="450" data-y="650" data-scale=".2">
+	<h3>Input distribution</h3>
+	<br/>
+	<center>
+	<img id="input_distribution" src="img/unconditional_input_hist.png"></img>
+	</center>
+    </div>
+
+    <div id="timing" class="step" data-x="650" data-y="650" data-scale=".2">
+	<h3>Timing distribution</h3>
+	<br/>
+	<center>
+	<img id="timing" src="img/combined_testSetPerformance_searchTime.png"></img>
+	</center>
+    </div>
+
+    <div id="courts" class="step" data-x="850" data-y="650" data-scale=".2">
+	<h3>Home court / away court</h3>
+	<br/>
+	<center>
+	<img id="courts" src="img/top_k_plots.png"></img>
+	</center>
+    </div>
+
+    <div id="overview_int2" class="step" data-x="900" data-y="300" data-scale="1.3">
+    </div>
+
+<!-- Branch 2 - algorithmic foundations -->
+
+    <div id="intuition" class="step" data-x="1150" data-y="500" data-scale=".3">
+	<h3>What does the model learn?</h3>
+	<br/>
+	<ul>
+		<li><red>patterns</red> relating I/O to programs
+		<li><orange>biasses</orange> on the distribution of programs
+	</ul>
+	<br/>
+	<b>Example</b>: dependence between "ordered output" and "sort", or "large numbers" and "scanl(*)"
+    </div>
+
+    <div id="mastermind" class="step" data-x="1450" data-y="500" data-scale=".3">
+	<h3>Mean Mastermind</h3>
+	<br/>
+	Set of combinations: subsets of size $k$ of $\{1,\dots,n\}$
+	<br/>
+	<br/>
+	<div class="slide_step">	
+	<b>Assumption</b>: the <green>secret combination</green> is sampled according to an <u>unknown</u> distribution $\mathcal{D}$
+	<br/>
+	<br/>
+	When presented a combination, the master answers <red>YES or NO</red>
+	<br/>
+	<br/>
+	</div>
+	<div class="slide_step">	
+	<b>Question</b>: what is the best algorithm for finding the secret combination?
+	</div>
+    </div>
+
+    <div id="mastermind2" class="step" data-x="1150" data-y="700" data-scale=".3">
+	<b>Key assumption</b>: we know properties of the distribution $\mathcal{D}$, 
+	such as marginals $\mathcal{D}(c)$ for each $c \in \{1,\dots,k\}$, or conditionals $\mathcal{D}(c \mid c')$
+	<br/>
+	<br/>
+	<b>Two settings</b>: 
+	<ul>
+		<li>Memoryless: algorithm = distribution $\mathcal{D'}$
+		<li>General: remembers wrong combinations
+	</ul>
+    </div>
+
+    <div id="mastermind3" class="step" data-x="1450" data-y="700" data-scale=".3">
+	<b>Theorem</b>: (Ohlmann, Lagarde, F.) 
+	With full knowledge of $\mathcal{D}$, the best memoryless algorithm is 
+
+	$$\mathcal{D'}(x) = \frac{\sqrt{\mathcal{D}(x)}}{\sum_x \sqrt{\mathcal{D}(x)}}$$
+
+	<br/>
+	<br/>
+	<div class="slide_step">	
+	<b>Solution</b>: against the biassed coin $(\frac{1}{3},\frac{2}{3})$, your best bet is 
+
+	$$\left( \frac{1}{1 + \sqrt{2}}, \frac{\sqrt{2}}{1 + \sqrt{2}} \right)$$
+	</div>	
+    </div>
+
+    <div id="overview_int2" class="step" data-x="900" data-y="300" data-scale="1.3">
+    </div>
+
+    <div id="bonus2" class="step" data-x="0" data-y="500" data-duration="0" data-scale=".8">
+	<h3>DeepSynth hires!</h3> 
+	<br/>
+	For internship / PhD / postdoc in LaBRI, Bordeaux
+	<br/>
+	<br/>
+	<green>Theoretical</green>:
+	<ul>
+		<li>Foundations of Search Algorithms with Oracles 
+		<li>Algorithms for Solving Games
+	</ul>
+	<br/>
+	<red>Experimental</red>:
+	<ul>
+		<li>Measuring the Quality of Heuristics 
+		<li>AI for Games
+	</ul>
+    </div>
+
+    <div id="overview" class="step" data-duration="0" data-x="0" data-y="0" data-scale="3">
+    </div>
+
+</div>
+
+<script src="js/flides.js"></script>
+<script>flides().init();</script>
+
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+  tex2jax: {inlineMath: [['$','$'], ['\\(','\\)']]}
+});
+</script>
+<script src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+</body>
+</html>
