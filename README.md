@@ -10,8 +10,8 @@ The core visualisation features (zoom in particular) is based on [impress.js](ht
 * partial overviews, showing what was already seen but not what is coming after,
 * clickable / not clickable slides... 
 
-You can check out this basic [demo](https://github.com/nathanael-fijalkow/Flides/Demo) I made.
-Please find [here](https://github.com/nathanael-fijalkow/Flides/2019-01-23-CAALM_Universal_Graphs) and [here](https://github.com/nathanael-fijalkow/Flides/2019-06-05-ForMaL-Cachan) two complete sets of slides.
+You can check out this basic [demo](https://github.com/nathanael-fijalkow/Flides/tree/master/Demo) I made.
+Please find [here](https://github.com/nathanael-fijalkow/Flides/tree/master/2019-01-23-CAALM_Universal_Graphs) and [here](https://github.com/nathanael-fijalkow/Flides/tree/master/2019-06-05-ForMaL-Cachan) two complete sets of slides.
 
 If you have troubles visualising them:
 * If you see nothing: you are using a too old browser which did not yet implement the latest HTML5 features used there, or you did not enable javascript. I can do nothing for you.
