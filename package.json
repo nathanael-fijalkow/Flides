@@ -1,0 +1,14 @@
+{
+  "name": "flides",
+  "version": "1.0.0",
+  "private": true,
+  "description": "HTML5 slide decks built with Flides (a customized impress.js). lib/flides.js is the single source of truth for the shared library; `npm run build` syncs it into every deck folder so each deck stays a self-contained static site with no runtime dependency on Node or npm.",
+  "scripts": {
+    "build": "node scripts/build.js",
+    "check": "node scripts/check.js",
+    "start": "http-server -c-1 ."
+  },
+  "devDependencies": {
+    "http-server": "^14.1.1"
+  }
+}

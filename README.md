@@ -18,5 +18,19 @@ If you have troubles visualising them:
 * If it's slow and laggy: you may want to try Google Chrome, as it's definitely the best browser for this.
 * If some parts of the slides do not fit the windows: it's because you use a zoom in your browser, play with it (usually, setting it to between 67% and 100% works just fine).
 
+## Maintaining the shared library
+
+Each deck folder is a self-contained static site — `index.html`, `css/`, `js/flides.js`, `img/` — so you can open one directly in a browser or copy a whole folder as the starting point for a new talk, no build step required.
+
+`js/flides.js` is nonetheless the same file in every deck, so it's kept in one canonical place, [`lib/flides.js`](lib/flides.js), and synced out to each deck by a small Node script:
+
+* `npm install` — one-time setup
+* Edit `lib/flides.js` (never edit a deck's `js/flides.js` directly, it will be overwritten)
+* `npm run build` — copies `lib/flides.js` into every deck's `js/flides.js`
+* `npm run check` — fails if any deck's copy has drifted from `lib/flides.js` (useful before committing)
+* `npm start` — serves the whole repo at http://localhost:8080 for local preview
+
+None of this is required to view or host the slides — npm is a dev-time convenience only. New deck folders are picked up automatically as long as they contain a `js/flides.js`.
+
 All comments and questions are most welcome! I'd be very glad to help you making HTML5 slides.
 

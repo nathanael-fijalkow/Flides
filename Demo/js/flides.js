@@ -1,3 +1,6 @@
+// SOURCE OF TRUTH: edit this file, then run `npm run build` to sync it into
+// every deck's js/flides.js. Do not hand-edit the copies in the deck folders.
+//
 // Flides is based on impress.js
 // What I did is removing some features I didn't use and added some simple new ones 
 // Most of the comments for this file are from impress.js, some are mine
