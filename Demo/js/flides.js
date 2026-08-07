@@ -514,7 +514,7 @@ SOFTWARE.
                     y: -step.translate.y,
                     z: -step.translate.z
                 },
-                scale: 1 / step.scale
+                scale: 1.5 / step.scale
             };
             
             // Check if the transition is zooming in or not.
@@ -631,7 +631,7 @@ SOFTWARE.
 		}
 		else{
 		        var prev = steps.indexOf( activeStep ) - 1;
-			while(stepsData["flides-" + steps[prev].id].fixed){
+			while(prev >= 0 && stepsData["flides-" + steps[prev].id].fixed){
 				prev--;
 			}
             		prev = prev >= 0 ? steps[ prev ] : steps[ 0 ];
@@ -652,7 +652,7 @@ SOFTWARE.
 		}
 		else{
 			next = steps.indexOf( activeStep ) + 1;
-			while(stepsData["flides-" + steps[next].id].fixed){
+			while(next < steps.length && stepsData["flides-" + steps[next].id].fixed){
 				next++;
 			}
             		next = next < steps.length ? steps[ next ] : steps[ steps.length - 1 ];
