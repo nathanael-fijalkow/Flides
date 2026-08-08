@@ -1,0 +1,180 @@
+<!doctype html>
+
+<!--
+    FLIDES STARTER KIT
+
+    This is a template, not a demo: copy this whole folder to start a new
+    talk (see `npm run new-deck` in the repo README), then edit or delete
+    everything below. For a live tour of every feature, see the Demo/
+    folder instead - this file sticks to the minimum you actually need.
+
+    The three moving parts of a deck:
+      - index.html   (this file)   - the slides themselves
+      - css/style.css               - layout and the flides mechanics
+      - js/flides.js, js/mathjax/, css/fonts*  - vendored, don't hand-edit;
+        `npm run build` regenerates these from lib/flides.js and npm
+-->
+
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=1024" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+
+    <!-- TODO: set your talk's title -->
+    <title>My Talk Title</title>
+
+    <!-- TODO: set a one-line description and your name -->
+    <meta name="description" content="My Talk Title" />
+    <meta name="author" content="Your Name" />
+
+    <link href="css/fonts.css" rel="stylesheet" />
+    <link href="css/style.css" rel="stylesheet" />
+</head>
+
+<body>
+
+<div id="flides">
+
+    <!--
+        A slide is a <div class="step">, positioned on the infinite canvas
+        with data-x/data-y (and data-z/rotate if you want 3D) and sized
+        with data-scale (smaller number = more zoomed in). data-duration="0"
+        skips the zoom animation when arriving at this slide - typically
+        used for the very first slide.
+    -->
+    <div id="title" class="step" data-duration="0" data-x="0" data-y="0">
+        <h2>My Talk Title</h2>
+
+        <br/>
+
+        <!-- A "slide step" is content revealed piece by piece within a
+             slide: press 'right' to uncover the next one. -->
+        <div class="slide_step">
+        <h3>Your Name &mdash; Venue, Date</h3>
+        </div>
+    </div>
+
+    <!-- TODO: replace with your own content. This slide shows the
+         slide_step reveal pattern: press 'right' three times to uncover
+         each bullet in turn. -->
+    <div id="outline" class="step" data-x="1000" data-y="0">
+        <h2>Outline</h2>
+
+        <br/>
+
+        <div class="slide_step">
+        First point, revealed on the first 'right' press.
+        </div>
+
+        <br/>
+
+        <div class="slide_step">
+        Second point, revealed next.
+        </div>
+
+        <br/>
+
+        <div class="slide_step">
+        Third point, revealed last. Press 'down' instead of 'right' to
+        uncover everything on a slide at once.
+        </div>
+    </div>
+
+    <!-- TODO: replace with your own maths, or delete this slide. MathJax
+         is configured below to render $...$ and \(...\) as inline TeX. -->
+    <div id="maths" class="step" data-x="2000" data-y="0">
+        <h2>Maths</h2>
+
+        <br/>
+
+        <div class="slide_step">
+        Inline math like $f : A^* \to \mathbb{R}$ is written between
+        dollar signs, exactly as in LaTeX.
+        </div>
+    </div>
+
+    <!-- TODO: replace with your own diagram, or delete this slide. This
+         shows the token animation pattern: elements with class "token"
+         start hidden and are revealed one at a time by pressing 'space',
+         which is handy for building up a diagram step by step. -->
+    <div id="animation" class="step" data-x="3000" data-y="0">
+        <h2>Animations</h2>
+
+        <br/>
+
+        <div class="slide_step">
+        Press 'space' to reveal each step below.
+        <br/>
+
+        <svg width="800" height="120">
+            <g class="token">
+                <rect x="0" y="20" width="150" height="60" fill="none" stroke="black" stroke-width="2"/>
+                <text x="40" y="58">Step A</text>
+            </g>
+            <g class="token">
+                <rect x="220" y="20" width="150" height="60" fill="none" stroke="black" stroke-width="2"/>
+                <text x="260" y="58">Step B</text>
+            </g>
+            <g class="token">
+                <rect x="440" y="20" width="150" height="60" fill="none" stroke="black" stroke-width="2"/>
+                <text x="480" y="58">Step C</text>
+            </g>
+        </svg>
+        </div>
+
+        <br/>
+
+        <div class="slide_step">
+        Want to see a backup slide? <a href="#backup">Click here</a>.
+        </div>
+    </div>
+
+    <!-- TODO: replace with your own backup slides, or delete. A slide
+         with data-fixed="1" is skipped by normal 'right'/'left' navigation
+         and is only reachable via a link - handy for backup/appendix
+         material. Link to it from anywhere with <a href="#slide-id">. -->
+    <div id="backup" class="step" data-fixed="1" data-duration="0" data-x="0" data-y="800">
+        <h2>Backup slide</h2>
+
+        <br/><br/>
+        This slide is skipped during normal navigation.
+        <a href="#outline">Back to the outline</a>.
+    </div>
+
+    <!--
+        The two slides below are required plumbing, not content - leave
+        them as the last two slides in the document. Do not delete or
+        rename them.
+
+        "overview_intermediate": a partial overview showing only the
+        slides seen so far. It works purely by naming convention: giving
+        this id triggers the `.flides-on-overview_intermediate` rules in
+        style.css. Position/scale it to frame your whole canvas.
+
+        "overview": the full overview, reached by pressing 'shift' (it is
+        always whichever slide is *last* in the document - the id itself
+        doesn't matter, only the position). Click any slide from here to
+        jump to it. Widen data-x/data-y/data-scale as you add more slides
+        so everything still fits in frame.
+    -->
+    <div id="overview_intermediate" class="step unclickable" data-x="1500" data-y="30" data-scale=".3">
+    </div>
+
+    <div id="overview" class="step" data-duration="0" data-x="1500" data-y="400" data-scale="4">
+    </div>
+
+</div>
+
+<script src="js/flides.js"></script>
+<script>flides().init();</script>
+
+<script>
+MathJax = {
+  tex: {inlineMath: [['$','$'], ['\\(','\\)']]}
+};
+</script>
+<script id="MathJax-script" src="js/mathjax/tex-svg.js"></script>
+
+</body>
+</html>

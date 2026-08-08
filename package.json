@@ -6,6 +6,7 @@
   "scripts": {
     "build": "node scripts/build.js",
     "check": "node scripts/check.js",
+    "new-deck": "node scripts/new-deck.js",
     "start": "http-server -c-1 ."
   },
   "devDependencies": {
