@@ -331,22 +331,70 @@ SOFTWARE.
             }
         };
         
+        // `getPartOrigin` walks up from a step element collecting any enclosing
+        // `.part` wrapper elements (outermost first) and composes their
+        // data-x/data-y/data-z/data-rotate-*/data-scale into a single origin.
+        //
+        // A `.part` is a plain `<div class="part" data-x="..." ...>` used
+        // purely to group steps that share a local coordinate system - it is
+        // never itself a `.step` (not navigable, not rendered specially) and
+        // has no CSS of its own; it only matters to this function. A step
+        // nested inside one or more `.part`s reads its own data-x/data-y/...
+        // as OFFSETS from the composed origin below, scaled by the origin's
+        // accumulated scale - so translation composes additively (scaled by
+        // the parent's scale, the way nested CSS transforms would behave)
+        // and scale composes multiplicatively. Rotation composes additively,
+        // which is exact as long as either the part or the step has no
+        // rotation of its own (translations are not re-rotated by an
+        // ancestor's rotation) - fine given no deck actually uses rotation
+        // today, but worth knowing if you start combining both.
+        //
+        // A step with no enclosing `.part` gets the identity origin
+        // (0,0,0 / scale 1), so nothing changes for existing decks.
+        var getPartOrigin = function ( el ) {
+            var chain = [];
+            var node = el.parentElement;
+            while ( node && node !== canvas ) {
+                if ( node.classList.contains("part") ) {
+                    chain.unshift(node);
+                }
+                node = node.parentElement;
+            }
+
+            var origin = { x: 0, y: 0, z: 0, rotateX: 0, rotateY: 0, rotateZ: 0, scale: 1 };
+            chain.forEach( function ( part ) {
+                var data = part.dataset;
+                origin = {
+                    x: origin.x + origin.scale * toNumber(data.x),
+                    y: origin.y + origin.scale * toNumber(data.y),
+                    z: origin.z + origin.scale * toNumber(data.z),
+                    rotateX: origin.rotateX + toNumber(data.rotateX),
+                    rotateY: origin.rotateY + toNumber(data.rotateY),
+                    rotateZ: origin.rotateZ + toNumber(data.rotateZ || data.rotate),
+                    scale: origin.scale * toNumber(data.scale, 1)
+                };
+            });
+            return origin;
+        };
+
         // `initStep` initializes given step element by reading data from its
-        // data attributes and setting correct styles.
+        // data attributes (composed with any enclosing `.part` origin, see
+        // `getPartOrigin` above) and setting correct styles.
         var initStep = function ( el, idx ) {
             var data = el.dataset,
+                origin = getPartOrigin(el),
                 step = {
                     translate: {
-                        x: toNumber(data.x),
-                        y: toNumber(data.y),
-                        z: toNumber(data.z)
+                        x: origin.x + origin.scale * toNumber(data.x),
+                        y: origin.y + origin.scale * toNumber(data.y),
+                        z: origin.z + origin.scale * toNumber(data.z)
                     },
                     rotate: {
-                        x: toNumber(data.rotateX),
-                        y: toNumber(data.rotateY),
-                        z: toNumber(data.rotateZ || data.rotate)
+                        x: origin.rotateX + toNumber(data.rotateX),
+                        y: origin.rotateY + toNumber(data.rotateY),
+                        z: origin.rotateZ + toNumber(data.rotateZ || data.rotate)
                     },
-                    scale: toNumber(data.scale, 1),
+                    scale: origin.scale * toNumber(data.scale, 1),
 		    fixed: toNumber(data.fixed, 0),
 		    duration: toNumber(data.duration, 1000),
                     el: el

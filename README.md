@@ -9,6 +9,7 @@ The core visualisation features (zoom in particular) is based on [impress.js](ht
 * animation using SVG,
 * partial overviews, showing what was already seen but not what is coming after,
 * clickable / not clickable slides... 
+* parts: group slides so their coordinates are relative to a local origin instead of the whole canvas (see below)
 
 You can check out this basic [demo](https://github.com/nathanael-fijalkow/Flides/tree/master/Demo) I made — it doubles as a tour of every feature above.
 Please find [here](https://github.com/nathanael-fijalkow/Flides/tree/master/2019-01-23-CAALM_Universal_Graphs) and [here](https://github.com/nathanael-fijalkow/Flides/tree/master/2019-06-05-ForMaL-Cachan) two complete sets of slides.
@@ -19,6 +20,37 @@ If you have troubles visualising them:
 * If you see nothing: you are using a too old browser which did not yet implement the latest HTML5 features used there, or you did not enable javascript. I can do nothing for you.
 * If it's slow and laggy: you may want to try Google Chrome, as it's definitely the best browser for this.
 * If some parts of the slides do not fit the windows: it's because you use a zoom in your browser, play with it (usually, setting it to between 67% and 100% works just fine).
+
+## Relative coordinates with `.part`
+
+Every slide (`.step`) is placed with `data-x`/`data-y`/`data-z`/`data-scale`/`data-rotate-*`, and by default those numbers are absolute positions on the one shared canvas - which gets tedious the moment a talk has multiple sections, since every new section's coordinates have to avoid overlapping every earlier one and you end up hand-shifting numbers whenever you insert something.
+
+Wrap a group of slides in `<div class="part" data-x="..." data-y="..." data-scale="...">` and their own `data-x`/`data-y`/`data-z`/`data-scale`/`data-rotate-*` are read as *relative to the part*, not the whole canvas: translation composes additively (scaled by the part's own scale, the way nested transforms normally behave) and scale multiplies. So each section's slides can be laid out starting from `(0,0)` as if it were its own small canvas, and moving the whole section around later is a one-line edit to the `.part`'s own `data-x`/`data-y`, not a rewrite of every slide inside it:
+
+```html
+<div id="flides">
+
+  <div class="part" data-x="0" data-y="0">
+    <!-- "Reactive synthesis" - laid out near (0,0), same as before -->
+    <div id="rs-title" class="step" data-x="0" data-y="0"></div>
+    <div id="rs-example" class="step" data-x="400" data-y="0"></div>
+  </div>
+
+  <div class="part" data-x="2000" data-y="0">
+    <!-- "Logic synthesis" - its own local (0,0), shifted 2000px right as a whole -->
+    <div id="ls-title" class="step" data-x="0" data-y="0"></div>
+    <div id="ls-example" class="step" data-x="400" data-y="0"></div>
+  </div>
+
+  <div class="part" data-x="4000" data-y="0">
+    <!-- "Neuro-symbolic synthesis" -->
+    <div id="ns-title" class="step" data-x="0" data-y="0"></div>
+  </div>
+
+</div>
+```
+
+A `.part` is never itself a slide (it's not in `$$(".step")`, has no CSS, isn't navigable or clickable) - it's purely a coordinate origin, and parts can be nested for finer-grained local groups within a section. A slide with no enclosing `.part` behaves exactly as it always has (absolute canvas coordinates), so this is fully opt-in and doesn't change any existing deck.
 
 ## Maintaining the shared library
 
