@@ -1,0 +1,164 @@
+<!doctype html>
+
+<!--
+    ERC slides.
+
+    Structure: a deck title + outline, then one <div class="part"> per
+    section (Reactive synthesis, Logic synthesis, Neuro-symbolic
+    synthesis). Slides inside a part are positioned with data-x/data-y
+    RELATIVE to that part's own data-x/data-y (see the "Relative
+    coordinates with .part" section of the repo README) - so each
+    section's slides can start from local (0,0) instead of having to
+    dodge every other section's coordinates on one shared canvas. Moving
+    a whole section is then a one-line edit to its <div class="part">,
+    not a renumbering of every slide inside it.
+
+    This file is scaffolded from starter-kit/ - see that folder (and the
+    README) for the full feature tour: slide_step reveal, MathJax, token
+    animations, fixed/backup slides, etc. TODO comments below mark where
+    to add real content; delete the placeholder slides as you go.
+-->
+
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=1024" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+
+    <title>ERC</title>
+
+    <meta name="description" content="ERC" />
+    <meta name="author" content="Nathanaël Fijalkow" />
+
+    <link href="css/fonts.css" rel="stylesheet" />
+    <link href="css/style.css" rel="stylesheet" />
+</head>
+
+<body>
+
+<div id="flides">
+
+    <div id="title" class="step" data-duration="0" data-x="0" data-y="0">
+        <h2>ERC</h2>
+
+        <br/>
+
+        <div class="slide_step">
+        <h3>Nathanaël Fijalkow</h3>
+        </div>
+    </div>
+
+    <div id="outline" class="step" data-x="800" data-y="0">
+        <h2>Outline</h2>
+
+        <br/>
+
+        <div class="slide_step">
+        <a href="#rs-title">Reactive synthesis</a>
+        </div>
+
+        <br/>
+
+        <div class="slide_step">
+        <a href="#ls-title">Logic synthesis</a>
+        </div>
+
+        <br/>
+
+        <div class="slide_step">
+        <a href="#ns-title">Neuro-symbolic synthesis</a>
+        </div>
+    </div>
+
+    <!-- ===================== Part 1: Reactive synthesis ===================== -->
+    <div class="part" data-x="2500" data-y="0">
+
+        <div id="rs-title" class="step" data-x="0" data-y="0">
+            <h2>Reactive synthesis</h2>
+        </div>
+
+        <!-- TODO: replace with real content. Coordinates here are local to
+             this part - (0,0) is this part's own origin, not the canvas's. -->
+        <div id="rs-placeholder" class="step" data-x="400" data-y="0">
+            <h3>TODO</h3>
+
+            <br/>
+
+            <div class="slide_step">
+            Add slides here. The reactive-synthesis schema from earlier was
+            only ever rendered inline in chat - export it from the
+            Excalidraw canvas as a PNG, save it to
+            ERC/img/reactive-synthesis-ex.png, then embed it with
+            &lt;img src="img/reactive-synthesis-ex.png"&gt;.
+            </div>
+        </div>
+
+    </div>
+
+    <!-- ===================== Part 2: Logic synthesis ===================== -->
+    <div class="part" data-x="5000" data-y="0">
+
+        <div id="ls-title" class="step" data-x="0" data-y="0">
+            <h2>Logic synthesis</h2>
+        </div>
+
+        <!-- TODO: replace with real content. -->
+        <div id="ls-placeholder" class="step" data-x="400" data-y="0">
+            <h3>TODO</h3>
+
+            <br/>
+
+            <div class="slide_step">
+            Add slides here.
+            </div>
+        </div>
+
+    </div>
+
+    <!-- ============== Part 3: Neuro-symbolic synthesis ============== -->
+    <div class="part" data-x="7500" data-y="0">
+
+        <div id="ns-title" class="step" data-x="0" data-y="0">
+            <h2>Neuro-symbolic synthesis</h2>
+        </div>
+
+        <!-- TODO: replace with real content. -->
+        <div id="ns-placeholder" class="step" data-x="400" data-y="0">
+            <h3>TODO</h3>
+
+            <br/>
+
+            <div class="slide_step">
+            Add slides here.
+            </div>
+        </div>
+
+    </div>
+
+    <!--
+        Required plumbing, not content - leave as the last two slides in
+        the document (see README). Re-tune data-x/data-y/data-scale here
+        (and on overview_intermediate below) whenever a part's own content
+        grows wider than its neighbour's data-x spacing above, so the
+        overview still frames everything.
+    -->
+    <div id="overview_intermediate" class="step unclickable" data-x="3950" data-y="0" data-scale=".85">
+    </div>
+
+    <div id="overview" class="step" data-duration="0" data-x="3950" data-y="0" data-scale="11">
+    </div>
+
+</div>
+
+<script src="js/flides.js"></script>
+<script>flides().init();</script>
+
+<script>
+MathJax = {
+  tex: {inlineMath: [['$','$'], ['\\(','\\)']]}
+};
+</script>
+<script id="MathJax-script" src="js/mathjax/tex-svg.js"></script>
+
+</body>
+</html>
