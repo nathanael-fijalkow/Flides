@@ -37,6 +37,14 @@
 <div id="flides">
 
     <!--
+        Tip: for a talk with several sections, wrap each section's slides
+        in <div class="part" data-x="..." data-y="..."> and give the
+        slides inside coordinates relative to the part, so every section
+        can start from (0,0) and be moved around as a whole. See the
+        "Relative coordinates with .part" section of the repo README.
+    -->
+
+    <!--
         A slide is a <div class="step">, positioned on the infinite canvas
         with data-x/data-y (and data-z/rotate if you want 3D) and sized
         with data-scale (smaller number = more zoomed in). data-duration="0"
@@ -94,6 +102,15 @@
         </div>
     </div>
 
+    <!--
+        "overview_intermediate": a partial overview showing only the
+        slides seen so far. It works purely by naming convention: giving
+        this id triggers the `.flides-on-overview_intermediate` rules in
+        style.css. Position/scale it to frame your whole canvas.
+    -->
+    <div id="overview_intermediate" class="step unclickable" data-x="2000" data-y="30" data-scale="5">
+    </div>
+
     <!-- TODO: replace with your own diagram, or delete this slide. This
          shows the token animation pattern: elements with class "token"
          start hidden and are revealed one at a time by pressing 'space',
@@ -130,6 +147,24 @@
         </div>
     </div>
 
+    <!-- TODO: replace with your own content, or delete this slide. Colour
+         tags (<red>, <green>, <blue>, <orange>, <mauve>) colour a word,
+         and a "box" (optionally with a data-label and a colour class)
+         frames a block. Put an image and some text as direct children of
+         a "row" div to lay them out side by side. -->
+    <div id="boxes" class="step" data-x="4000" data-y="0">
+        <h2>Boxes and colours</h2>
+
+        <div class="row">
+            <div class="box green small" data-label="Correct">
+            <green>Symbolic</green> methods come with guarantees.
+            </div>
+            <div class="box blue small" data-label="Scalable">
+            <blue>Neural</blue> methods handle large inputs.
+            </div>
+        </div>
+    </div>
+
     <!-- TODO: replace with your own backup slides, or delete. A slide
          with data-fixed="1" is skipped by normal 'right'/'left' navigation
          and is only reachable via a link - handy for backup/appendix
@@ -143,27 +178,23 @@
     </div>
 
     <!--
-        The two slides below are required plumbing, not content - leave
-        them as the last two slides in the document. Do not delete or
-        rename them.
-
-        "overview_intermediate": a partial overview showing only the
-        slides seen so far. It works purely by naming convention: giving
-        this id triggers the `.flides-on-overview_intermediate` rules in
-        style.css. Position/scale it to frame your whole canvas.
-
         "overview": the full overview, reached by pressing 'shift' (it is
         always whichever slide is *last* in the document - the id itself
         doesn't matter, only the position). Click any slide from here to
         jump to it. Widen data-x/data-y/data-scale as you add more slides
         so everything still fits in frame.
     -->
-    <div id="overview_intermediate" class="step unclickable" data-x="1500" data-y="30" data-scale=".3">
+    <div id="overview" class="step" data-duration="0" data-x="2000" data-y="400" data-scale="5">
     </div>
 
-    <div id="overview" class="step" data-duration="0" data-x="1500" data-y="400" data-scale="4">
-    </div>
+</div>
 
+<!-- Optional: links to the backup slides, shown in the top-right corner
+     of the screen while the overview is displayed (see #backup-links in
+     style.css). It lives outside #flides on purpose, so it is not moved
+     around with the canvas. -->
+<div id="backup-links">
+    <a href="#backup">Backup slide</a>
 </div>
 
 <script src="js/flides.js"></script>

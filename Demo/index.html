@@ -51,21 +51,12 @@
 
 	<br/>
 
-	<div class="slide_step">
-	press "right" to uncover the next element of the current slide, or to go to the next slide when they are no further elements to uncover
-	</div>
-
-	<br/>
-
-	<div class="slide_step">
-	press "left" to cover all elements of the current slide, or to go to the previous slide when they are no further elements to cover
-	</div>
-
-	<br/>
-
-	<div class="slide_step">
-	press "down" or "page down" to uncover all elements of the current slide
-	</div>
+	<ul>
+		<li>Press "right" to uncover the next element of the current slide, or to go to the next slide when they are no further elements to uncover.</li>
+		<li>Press "left" to cover all elements of the current slide, or to go to the previous slide when they are no further elements to cover.</li>
+		<li>Press "down" or "page down" to uncover all elements of the current slide.</li>
+		</li>
+	</ul>
     </div>
 
     <div id="automata" class="step unclickable" data-x="1000" data-y="0">
@@ -130,7 +121,7 @@
 	<div class="slide_step">
 	<ul>
 		<li>The "<i>overview_intermediate</i>" displays the slides that have been seen already.
-		<li>The "<i>overview</i>" slide, which is the last. Go to the overview with "enter".
+		<li>The "<i>overview</i>" slide, which is the last. Go to the overview with "shift".
 	</ul>
 	</div>
 
@@ -146,8 +137,11 @@
 	</div>
     </div>
 
+    <div id="overview_intermediate" class="step unclickable" data-x="0" data-y="400" data-scale="2">
+    </div>
+
     <!-- data-fixed="1" means that this slide is excluded from the general flow and can only be accessed by clicking on it or through a hyperlink -->
-    <div id="always_here" class="step" data-fixed="1" data-duration="0" data-x="0" data-y="800" data-z="0" data-scale="1">
+    <div id="always_here" class="step" data-fixed="1" data-duration="0" data-x="0" data-y="1500" data-z="0" data-scale="1">
 	<h2>This slide is always here</h2>
 
 	<br/><br/>
@@ -155,12 +149,46 @@
     </div>
 
 
-    <div id="overview_intermediate" class="step unclickable" data-x="1000" data-y="-30" data-scale=".15">
+    <!-- A part groups slides that share a local origin: inside <div class="part" data-x="..." data-y="...">, the data-x/data-y of each slide are relative to the part. Both slides below are placed around (0,0), and the whole group is moved by editing the part only. -->
+    <div class="part" data-x="0" data-y="800">
+
+		<div id="parts" class="step" data-x="-500" data-y="0">
+			<h2>Parts</h2>
+
+			<br/>
+
+			<div class="slide_step">
+				Wrap slides in a <i>part</i> to give them coordinates <i>relative</i> to a local origin.
+			</div>
+
+			<br/>
+
+			<div class="slide_step">
+				Moving the whole section is then a one-line edit of the part.
+			</div>
+		</div>
+
+		<div id="boxes" class="step" data-x="500" data-y="0">
+		<h2>Boxes and colours</h2>
+
+			<div class="row">
+				<img src="img/fig3.svg" width="40%"/>
+				<div class="box green small" data-label="Layout">
+				A <green>row</green> puts an image and a <blue>box</blue> side by side.
+				</div>
+			</div>
+		</div>
+
     </div>
 
-    <div id="overview" class="step" data-duration="0" data-x="0" data-y="0" data-scale="2">
+    <div id="overview" class="step" data-duration="0" data-x="0" data-y="400" data-scale="2">
     </div>
 
+</div>
+
+<!-- Links shown in the top-right corner of the screen while the overview is displayed -->
+<div id="backup-links">
+    <a href="#always_here">Useless slide</a>
 </div>
 
 <script src="js/flides.js"></script>

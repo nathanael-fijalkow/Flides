@@ -60,6 +60,10 @@ orange {
    color: orange;
 }
 
+mauve {
+   color: #E0B0FF;
+}
+
 body {
     font-family: 'PT Sans', sans-serif;
     min-height: 740px;
@@ -145,12 +149,111 @@ h4 {
 }
 
 img {
+    max-width: 100%;
+}
+
+/* the two figures of the demo are meant to fill the slide, whatever their intrinsic size */
+#strip,
+#example_automaton {
     width: 100%;
+}
+
+/* side-by-side layout: put an image and some text as direct children */
+.row {
+    display: flex;
+    align-items: center;
+    gap: 30px;
+}
+
+.row img {
+    flex: 0 0 auto;
+}
+
+/* rows pairing a text block with a screenshot: same image width across
+   all rows, height follows each image's own aspect ratio (no letterboxing) */
+.picture-row {
+    margin-bottom: 0;
+}
+
+.picture-row .small,
+.picture-row .highlight {
+    flex: 1 1 auto;
+}
+
+.picture-row .image-box {
+    flex: 0 0 200px;
+    width: 200px;
+}
+
+.picture-row .image-box img {
+    display: block;
+    width: 100%;
+    height: auto;
+}
+
+.small {
+    font-size: 20px;
+}
+
+.highlight {
+    font-size: 30px;
 }
 
 ul {
     display: block;
-    list-style-type: disc;
+    list-style: none;
+    margin: 10px 0 10px 60px;
+}
+
+li {
+    position: relative;
+    font-size: .7em;
+    line-height: 1.4;
+    margin-bottom: 10px;
+    padding-left: 20px;
+}
+
+li::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: .5em;
+    width: 10px;
+    height: 10px;
+    background: currentColor;
+    border-radius: 3px;
+    transform: translateY(-50%) rotate(45deg);
+}
+
+.box {
+    position: relative;
+    display: inline-block;
+    margin-top: 35px;
+    padding: 20px 35px;
+    border: 2px solid orange;
+    border-radius: 16px;
+    background: rgba(255,165,0,0.08);
+    box-shadow: 0 6px 14px rgba(0,0,0,0.12);
+}
+
+/* add one of these alongside "box" to change its accent colour, e.g. class="box green" */
+.box.red   { border-color: red;   background: rgba(255,0,0,0.08); }
+.box.blue  { border-color: blue;  background: rgba(0,0,255,0.08); }
+.box.green { border-color: green; background: rgba(0,128,0,0.08); }
+.box.mauve { border-color: #E0B0FF; background: rgba(224,176,255,0.15); }
+
+.box[data-label]::before {
+    content: attr(data-label);
+    position: absolute;
+    top: -1.15em;
+    left: 20px;
+    padding: 0 8px;
+    font-family: 'PT Sans', sans-serif;
+    font-size: 1.1em;
+    line-height: 1;
+    font-weight: bold;
+    color: black;
+    background: transparent;
 }
 
 table {
@@ -244,4 +347,37 @@ table {
 
 .flides-on-overview .slide_step {
     opacity: 1;
+}
+
+/*
+ corner menu linking to the backup slides (budget, timeline, CV). It lives
+ outside #flides (a sibling in the body, see index.html) so the canvas
+ pan/zoom transform never touches it - position: fixed then places it in
+ the actual top-right of the screen instead of some point on the canvas.
+ Shown only while the overview is on screen.
+*/
+#backup-links {
+    display: none;
+    position: fixed;
+    top: 24px;
+    right: 24px;
+    z-index: 10;
+
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 8px;
+
+    font-family: 'PT Sans', sans-serif;
+    font-size: 18px;
+}
+
+body.flides-on-overview #backup-links {
+    display: flex;
+}
+
+#backup-links a {
+    padding: 6px 16px;
+    border-radius: 20px;
+    background: rgba(255,255,255,0.85);
+    box-shadow: 0 2px 8px rgba(0,0,0,0.15);
 }
