@@ -1,0 +1,11 @@
+{
+  "version": "0.0.1",
+  "configurations": [
+    {
+      "name": "simplex-deck",
+      "runtimeExecutable": "python3",
+      "runtimeArgs": ["-m", "http.server", "8123", "--directory", "/Users/nath/Documents/Research/Flides/Simplex"],
+      "port": 8123
+    }
+  ]
+}

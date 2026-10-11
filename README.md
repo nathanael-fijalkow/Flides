@@ -69,3 +69,13 @@ None of this is required to view or host the slides — npm is a dev-time conven
 
 All comments and questions are most welcome! I'd be very glad to help you making HTML5 slides.
 
+## Reviewing slides with Claude Code
+
+This repository includes a [Claude Code](https://claude.com/claude-code) skill, [flides-review](.claude/skills/flides-review/SKILL.md), for reviewing and improving a deck together with Claude, asynchronously.
+
+Claude starts a local dashboard (by default at http://localhost:4180) where you browse the slides one by one. On any slide you can write feedback, optionally pointing at an element of the slide, or ask for the slide to be removed. Each piece of feedback becomes a ticket. Claude listens for new tickets in the background and handles each one separately, so you can keep reviewing while it works. When a slide has changed, the dashboard shows the previous and the new version side by side, and you accept the change, reopen the ticket with a comment, or ask for an undo.
+
+To use it, open Claude Code in this repository and ask, for instance, "start a Flides review of the Demo deck". For decks stored elsewhere, copy the folder `.claude/skills/flides-review` into `~/.claude/skills/` (available in all your projects) or into the `.claude/skills/` folder of the project holding the deck.
+
+The skill needs Node.js 18 or later and has no other dependency. Review data (tickets and a snapshot of each version of the deck) is kept in a `.flides-review` folder next to the deck, which git ignores.
+

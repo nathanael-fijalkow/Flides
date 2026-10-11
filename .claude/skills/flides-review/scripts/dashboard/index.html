@@ -1,0 +1,115 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Flides Review</title>
+  <link rel="stylesheet" href="/__review/style.css">
+</head>
+<body>
+  <header class="topbar">
+    <div class="brand">
+      <span class="brand-mark">F</span>
+      <span class="brand-name">Flides review</span>
+      <span class="brand-sep">/</span>
+      <span id="deck-title" class="deck-title"></span>
+    </div>
+    <nav class="tabs" role="tablist">
+      <button class="tab active" data-view="slides" role="tab">Slides</button>
+      <button class="tab" data-view="tickets" role="tab">Tickets <span id="tab-count" class="count"></span></button>
+    </nav>
+    <div class="topbar-right">
+      <button id="next-review" class="btn small accent" hidden>Next change to review</button>
+      <div id="agent" class="agent-status" title="">
+        <span class="agent-dot"></span><span class="agent-label">Connecting</span>
+      </div>
+    </div>
+  </header>
+
+  <main class="layout">
+    <aside class="sidebar">
+      <div class="sidebar-head">
+        <span id="slide-count">Slides</span>
+        <label class="filter"><input type="checkbox" id="only-flagged"> With tickets only</label>
+      </div>
+      <ol id="slide-list" class="slide-list"></ol>
+    </aside>
+
+    <section id="view-slides" class="view">
+      <div class="slide-head">
+        <div class="slide-head-main">
+          <button id="prev" class="btn icon" title="Previous slide (left arrow)" aria-label="Previous slide">&#8249;</button>
+          <div class="slide-heading">
+            <div id="slide-title" class="slide-title"></div>
+            <div id="slide-meta" class="slide-meta"></div>
+            <div id="slide-help" class="slide-help" hidden></div>
+          </div>
+          <button id="next" class="btn icon" title="Next slide (right arrow)" aria-label="Next slide">&#8250;</button>
+        </div>
+        <div class="slide-head-tools">
+          <label class="field" title="The deck is drawn as it appears full screen on this display">View as
+            <select id="viewport"></select>
+          </label>
+          <label class="field">Compare with
+            <select id="compare"></select>
+          </label>
+          <label class="toggle"><input type="checkbox" id="reveal" checked> Show all reveals</label>
+          <a id="open-deck" class="btn small ghost" target="_blank" rel="noopener">Open in deck</a>
+        </div>
+      </div>
+
+      <div id="stage" class="stage">
+        <figure class="pane" id="pane-before" hidden>
+          <figcaption><span class="pane-label">Before</span><span id="before-caption" class="pane-caption"></span></figcaption>
+          <div class="frame-box">
+            <iframe id="frame-before" title="Previous version of the slide"></iframe>
+            <div class="frame-overlay" hidden></div>
+          </div>
+        </figure>
+        <figure class="pane" id="pane-now">
+          <figcaption><span class="pane-label">Now</span><span id="now-caption" class="pane-caption"></span></figcaption>
+          <div class="frame-box">
+            <iframe id="frame-now" title="Current version of the slide"></iframe>
+            <div class="frame-overlay" hidden></div>
+          </div>
+        </figure>
+      </div>
+
+      <div class="below">
+        <form id="composer" class="composer" autocomplete="off">
+          <textarea id="feedback" rows="3" placeholder="Feedback on this slide. The agent picks it up as a ticket."></textarea>
+          <div id="target-chip" class="target-chip" hidden>
+            <span class="target-label">Pointing at</span>
+            <code id="target-text"></code>
+            <button type="button" id="target-clear" class="link" aria-label="Stop pointing at this element">Clear</button>
+          </div>
+          <div class="composer-actions">
+            <button type="button" id="point" class="btn ghost" title="Click an element of the slide to attach it to the feedback">Point at element</button>
+            <span class="hint">Ctrl or Cmd + Enter to send</span>
+            <span class="spacer"></span>
+            <button type="button" id="remove" class="btn danger-ghost" title="Create a ticket asking to remove this slide">Remove this slide</button>
+            <button type="submit" id="send" class="btn primary">Send feedback</button>
+          </div>
+        </form>
+        <div class="slide-tickets-head">Tickets on this slide</div>
+        <div id="slide-tickets" class="ticket-list"></div>
+      </div>
+    </section>
+
+    <section id="view-tickets" class="view" hidden>
+      <div class="tickets-head">
+        <div class="chips" id="ticket-filter">
+          <button class="chip active" data-filter="active">Active</button>
+          <button class="chip" data-filter="review">Awaiting your review</button>
+          <button class="chip" data-filter="blocked">Questions for you</button>
+          <button class="chip" data-filter="all">All</button>
+        </div>
+      </div>
+      <div id="all-tickets" class="ticket-list wide"></div>
+    </section>
+  </main>
+
+  <div id="toast" class="toast" hidden></div>
+  <script src="/__review/app.js"></script>
+</body>
+</html>
