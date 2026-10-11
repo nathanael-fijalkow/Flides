@@ -297,6 +297,33 @@ SOFTWARE.
         // root presentation elements
         var root = byId( rootId );
         var canvas = document.createElement("div");
+
+        var isNumberedSlide = function ( el ) {
+            return el.id !== "overview" && el.id !== "overview_intermediate" && el.dataset.fixed !== "1";
+        };
+
+        var addSlideNumbers = function () {
+            var total = 0;
+            var number = 0;
+
+            steps.forEach( function ( el ) {
+                if (isNumberedSlide(el)) {
+                    total++;
+                }
+            });
+
+            steps.forEach( function ( el ) {
+                if (!isNumberedSlide(el)) {
+                    return;
+                }
+
+                number++;
+                var slideNumber = document.createElement("span");
+                slideNumber.className = "flides-slide-number";
+                slideNumber.textContent = number + "/" + total;
+                el.appendChild(slideNumber);
+            });
+        };
         
         var initialized = false;
         
@@ -476,6 +503,7 @@ SOFTWARE.
             
             // get and init steps
             steps = $$(".step", root);
+            addSlideNumbers();
             steps.forEach( initStep );
             
             // set a default initial state of the canvas

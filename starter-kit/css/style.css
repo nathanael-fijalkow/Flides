@@ -112,6 +112,17 @@ a:focus {
     transition:         opacity .1s;
 }
 
+.flides-slide-number {
+    position: absolute;
+    right: 25px;
+    bottom: 15px;
+    font-family: 'PT Sans', sans-serif;
+    font-size: 26px;
+    line-height: 1;
+    opacity: .7;
+    pointer-events: none;
+}
+
 h1 {
     font-size: 200px;
 }
