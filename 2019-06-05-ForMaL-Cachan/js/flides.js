@@ -182,39 +182,59 @@ SOFTWARE.
     
     // `computeWindowScale` counts the scale factor between window size and size
     // defined for the presentation in the config.
+    //
+    // On phones, `config.width` (1024 by default) is a poor proxy for how
+    // wide content actually is: every deck's `.step` is narrower than that
+    // (commonly 900px), so fitting against the full 1024 leaves scale lower
+    // - and the screen emptier - than it needs to be. Fit against the
+    // narrower of the two instead, measured from an actual step rather than
+    // hardcoded, so it tracks whatever a given deck's CSS really uses.
+    // Height is left alone: a step's rendered height varies a lot more
+    // (a packed slide vs a title slide), and some steps are deliberately
+    // sized far taller than the viewport because data-scale zooms into one
+    // detail of them - fitting against actual height would fight that zoom.
     var computeWindowScale = function ( config ) {
+        var effectiveWidth = config.width;
+        if ( isPhoneSize() ) {
+            var sampleStep = document.querySelector(".step");
+            if ( sampleStep && sampleStep.offsetWidth ) {
+                effectiveWidth = Math.min( config.width, sampleStep.offsetWidth );
+            }
+        }
+
         var hScale = window.innerHeight / config.height,
-            wScale = window.innerWidth / config.width,
+            wScale = window.innerWidth / effectiveWidth,
             scale = hScale > wScale ? wScale : hScale;
-        
+
         if (config.maxScale && scale > config.maxScale) {
             scale = config.maxScale;
         }
-        
+
         if (config.minScale && scale < config.minScale) {
             scale = config.minScale;
         }
-        
+
         return scale;
     };
     
     // CHECK SUPPORT
     var body = document.body;
-    
-    var ua = navigator.userAgent.toLowerCase();
-    var flidesSupported = 
-                          // browser should support CSS 3D transtorms 
+
+    var flidesSupported =
+                          // browser should support CSS 3D transtorms
                            ( pfx("perspective") !== null ) &&
-                           
+
                           // and `classList` and `dataset` APIs
                            ( body.classList ) &&
-                           ( body.dataset ) &&
-                           
-                          // but some mobile devices need to be blacklisted,
-                          // because their CSS 3D support or hardware is not
-                          // good enough to run flides.js properly, sorry...
-                           ( ua.search(/(iphone)|(ipod)|(android)/) === -1 );
-    
+                           ( body.dataset );
+    // This used to also blacklist iPhone/iPod/Android by user agent, from
+    // back when CSS 3D transforms on mobile were unreliable. They aren't
+    // anymore - the feature check above is the real requirement, and
+    // hardcoding "this browser" instead of "this feature" is exactly what
+    // made flides.js refuse to run at all on every phone once mobile
+    // browsers caught up. See the phone navigation toolbar further down
+    // for what phones still need that desktop doesn't: a keyboard.
+
     if (!flidesSupported) {
         // we can't be sure that `classList` is supported
         body.className += " flides-not-supported ";
@@ -222,7 +242,21 @@ SOFTWARE.
         body.classList.remove("flides-not-supported");
         body.classList.add("flides-supported");
     }
-    
+
+    // `isPhoneSize` treats a touch-capable screen whose short side is small
+    // as a phone - checking the short side rather than just the width so it
+    // still counts after a rotation to landscape, and roughly separating
+    // phones from tablets (even large phones are under ~430px on their
+    // short side; small tablets are already 700px+). Shared (via
+    // flides.isPhoneSize) with the navigation-events module below, which
+    // uses it to decide whether to show the on-screen phone toolbar.
+    var PHONE_MAX_SHORT_SIDE = 500;
+
+    var isPhoneSize = function () {
+        var touch = ('ontouchstart' in window) || (navigator.maxTouchPoints > 0);
+        return touch && Math.min(window.innerWidth, window.innerHeight) <= PHONE_MAX_SHORT_SIDE;
+    };
+
     // GLOBALS AND DEFAULTS
     
     // This is where the root elements of all flides.js instances will be kept.
@@ -466,9 +500,9 @@ SOFTWARE.
                 perspective: toNumber( rootData.perspective, defaults.perspective ),
                 transitionDuration: toNumber( rootData.transitionDuration, defaults.transitionDuration )
             };
-            
+
             windowScale = computeWindowScale( config );
-            
+
             // wrap steps with "canvas" element
             arrayify( root.childNodes ).forEach(function ( el ) {
                 canvas.appendChild( el );
@@ -580,7 +614,16 @@ SOFTWARE.
             el.classList.add("active");
             
             body.classList.add("flides-on-" + el.id);
-            
+
+            // The 1.5x here is a deliberate "zoom in a bit for polish" bonus
+            // tuned against desktop screens, where windowScale already has
+            // slack to spare (see computeWindowScale's maxScale clamp). On a
+            // narrow phone there is no such slack, so the exact same 1.5x
+            // instead pushes ordinary (step.scale ~ 1) slides past the edges
+            // of the screen. Phones fall back to an exact fit (1x) instead -
+            // smaller text, but nothing runs off-screen.
+            var zoomMultiplier = isPhoneSize() ? 1 : 1.5;
+
             // compute target state of the canvas based on given step
             var target = {
                 rotate: {
@@ -593,9 +636,9 @@ SOFTWARE.
                     y: -step.translate.y,
                     z: -step.translate.z
                 },
-                scale: 1.5 / step.scale
+                scale: zoomMultiplier / step.scale
             };
-            
+
             // Check if the transition is zooming in or not.
             //
             // This information is used to alter the transition style:
@@ -839,7 +882,11 @@ SOFTWARE.
     
     // flag that can be used in JS to check if browser have passed the support test
     flides.supported = flidesSupported;
-    
+
+    // shared with the navigation-events module below, so both the zoom
+    // multiplier here and the phone toolbar there agree on what counts as a phone
+    flides.isPhoneSize = isPhoneSize;
+
 })(document, window);
 
 // NAVIGATION EVENTS
@@ -865,7 +912,71 @@ SOFTWARE.
             }, delay);
         };
     };
-    
+
+    // PHONE NAVIGATION
+    //
+    // Desktop relies on the keyboard; phones have none. isPhoneSize is
+    // shared (via flides.isPhoneSize, defined with the core engine) with
+    // the zoom multiplier in goto(), so both agree on what counts as a
+    // phone. On devices it flags, an on-screen toolbar mirrors the
+    // keyboard shortcuts: start (backspace), prev (left), play (space -
+    // the SVG token animation, shown only on slides that have one), next
+    // (right), overview (shift).
+    var isPhoneSize = window.flides.isPhoneSize;
+
+    var createPhoneNav = function (api) {
+        var existing = document.getElementById('flides-phone-nav');
+        if (existing) { return existing; }
+
+        var bar = document.createElement('div');
+        bar.id = 'flides-phone-nav';
+        bar.style.cssText =
+            'position:fixed; left:0; right:0; bottom:0; display:flex; ' +
+            'justify-content:space-around; align-items:stretch; ' +
+            'background:rgba(255,255,255,0.92); ' +
+            'backdrop-filter:blur(6px); -webkit-backdrop-filter:blur(6px); ' +
+            'box-shadow:0 -1px 4px rgba(0,0,0,0.15); z-index:2147483647; ' +
+            'padding-bottom:env(safe-area-inset-bottom, 0px); ' +
+            'font-family:system-ui,-apple-system,sans-serif;';
+
+        var addButton = function (action, label, icon) {
+            var btn = document.createElement('button');
+            btn.type = 'button';
+            btn.setAttribute('aria-label', label);
+            btn.style.cssText =
+                'flex:1 1 0; display:flex; flex-direction:column; align-items:center; ' +
+                'justify-content:center; min-height:52px; padding:6px 2px; border:none; ' +
+                'background:transparent; color:#333; font-size:22px; line-height:1; ' +
+                'cursor:pointer; -webkit-tap-highlight-color:transparent; touch-action:manipulation;';
+            btn.innerHTML =
+                '<span>' + icon + '</span>' +
+                '<span style="font-size:9px; margin-top:2px; letter-spacing:.04em; ' +
+                'text-transform:uppercase; color:#777;">' + label + '</span>';
+            btn.addEventListener('click', function (event) {
+                event.preventDefault();
+                api[action]();
+            });
+            bar.appendChild(btn);
+            return btn;
+        };
+
+        addButton('start', 'Start', '↺');
+        addButton('prev_slide', 'Prev', '‹');
+        var animeButton = addButton('anime', 'Play', '▶');
+        animeButton.style.display = 'none';
+        addButton('next_slide', 'Next', '›');
+        addButton('overview', 'All', '⊞');
+
+        document.body.appendChild(bar);
+
+        // the "Play" button only makes sense on a slide with a token animation
+        document.addEventListener('flides:stepenter', function (event) {
+            animeButton.style.display = event.target.querySelectorAll('.token').length > 0 ? 'flex' : 'none';
+        }, false);
+
+        return bar;
+    };
+
     // wait for flides.js to be initialized
     document.addEventListener("flides:init", function (event) {
         // Getting API from event data.
@@ -873,9 +984,19 @@ SOFTWARE.
         // or anything. `flides:init` event data gives you everything you 
         // need to control the presentation that was just initialized.
         var api = event.detail.api;
-        
+
+        // Show the phone toolbar now if we're already on a phone-sized
+        // touch screen, and re-check on resize/rotation so it appears or
+        // disappears as the window crosses the threshold.
+        var phoneNav = isPhoneSize() ? createPhoneNav(api) : null;
+        window.addEventListener("resize", throttle(function () {
+            var shouldShow = isPhoneSize();
+            if (shouldShow && !phoneNav) { phoneNav = createPhoneNav(api); }
+            if (phoneNav) { phoneNav.style.display = shouldShow ? "flex" : "none"; }
+        }, 250), false);
+
         // KEYBOARD NAVIGATION HANDLERS
-        
+
         // Prevent default keydown action when one of supported key is pressed.
         document.addEventListener("keydown", function ( event ) {
             if ( ( event.keyCode == 8 ) || ( event.keyCode == 13 ) || ( event.keyCode >= 32 && event.keyCode <= 34 ) || (event.keyCode >= 37 && event.keyCode <= 40) ) {
@@ -970,17 +1091,21 @@ SOFTWARE.
         // touch handler to detect taps on the left and right side of the screen
         // based on awesome work of @hakimel: https://github.com/hakimel/reveal.js
         document.addEventListener("touchstart", function ( event ) {
+            // don't fight the phone toolbar's own buttons for the same tap
+            if ( event.target.closest && event.target.closest("#flides-phone-nav") ) {
+                return;
+            }
             if (event.touches.length === 1) {
                 var x = event.touches[0].clientX,
                     width = window.innerWidth * 0.3,
                     result = null;
-                    
+
                 if ( x < width ) {
                     result = api.prev_slide();
                 } else if ( x > window.innerWidth - width ) {
                     result = api.next_slide();
                 }
-                
+
                 if (result) {
                     event.preventDefault();
                 }
