@@ -20,6 +20,7 @@ const DASHBOARD = path.join(HERE, 'dashboard');
 const STORE = '.flides-review';
 const SKIPPED = new Set([STORE, '.git', 'node_modules', '.DS_Store']);
 const DEFAULT_PORT = 4180;
+const IDLE_TIMEOUT_MS = 30 * 60 * 1000;
 const OPEN_STATES = ['open', 'in_progress'];
 
 // ---------------------------------------------------------------------------
@@ -550,7 +551,9 @@ async function handleAction(deck, id, body) {
 }
 
 function startServer(deck, port, tries = 20) {
+  let lastActivity = Date.now();
   const server = http.createServer(async (req, res) => {
+    lastActivity = Date.now();
     try {
       const host = req.headers.host || '';
       // Refuse other host names (DNS rebinding) and cross-site writes: the agent
@@ -614,8 +617,19 @@ function startServer(deck, port, tries = 20) {
     };
     process.on('SIGINT', cleanup);
     process.on('SIGTERM', cleanup);
+    // The dashboard polls /api/state every 2s while a tab has it open, so no
+    // request for IDLE_TIMEOUT_MS means nobody is watching - shut down
+    // instead of leaving the process running forever in the background.
+    const idleCheck = setInterval(() => {
+      if (Date.now() - lastActivity >= IDLE_TIMEOUT_MS) {
+        clearInterval(idleCheck);
+        console.log(`Flides review dashboard: no activity for ${IDLE_TIMEOUT_MS / 60000} minutes, shutting down.`);
+        cleanup();
+      }
+    }, 60 * 1000);
     console.log(`Flides review dashboard: ${url}`);
     console.log(`Deck: ${path.join(deck.dir, deck.file)}`);
+    console.log(`Shuts down automatically after ${IDLE_TIMEOUT_MS / 60000} minutes without a request.`);
   });
 }
 

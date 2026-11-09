@@ -16,6 +16,8 @@ Please find [here](https://github.com/nathanael-fijalkow/Flides/tree/master/2019
 
 Starting a new talk? [`starter-kit/`](starter-kit) is a minimal, heavily-commented template — copy it (or run `npm run new-deck -- <folder-name> "Talk Title"` to do that for you and populate the shared assets in one step) and edit away.
 
+[`index.html`](index.html) at the repo root is a landing page linking to the demo and the examples above - once GitHub Pages is turned on for this repo (Settings → Pages → Deploy from a branch → `master`, root folder), it'll be served live at `https://nathanael-fijalkow.github.io/Flides/`. No build step needed: everything here is already plain static HTML/CSS/JS.
+
 If you have troubles visualising them:
 * If you see nothing: you are using a too old browser which did not yet implement the latest HTML5 features used there, or you did not enable javascript. I can do nothing for you.
 * If it's slow and laggy: you may want to try Google Chrome, as it's definitely the best browser for this.
