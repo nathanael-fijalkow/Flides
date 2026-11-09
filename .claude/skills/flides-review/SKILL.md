@@ -83,3 +83,5 @@ Reopened tickets come back through `next` with the whole conversation; the last 
 ## Stopping
 
 When the user is done, stop the background `wait` and the server (stop the background tasks, or kill the server process, whose pid is in `.flides-review/server.json`). Tickets and versions stay on disk, and a later `serve` picks up where the session ended. Do not commit anything to git unless the user asks. When the review is over for good, the user may delete `.flides-review/`.
+
+The server also stops itself after 30 minutes with no request to it (the dashboard polls every 2 seconds while a tab has it open, so this means no tab has had it open for 30 minutes), so a forgotten session does not run forever. Still stop it yourself when the user is done rather than relying on this.
