@@ -1,0 +1,127 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Flides</title>
+<meta name="description" content="Flides: HTML5 slides with javascript, zoomable and built on impress.js." />
+
+<style>
+  :root {
+    --ink: #1e1e1e;
+    --muted: #6b7280;
+    --line: #e5e7eb;
+    --accent: #4a9eed;
+    --bg: #fdfdfc;
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    padding: 0 20px;
+    background: var(--bg);
+    color: var(--ink);
+    font-family: Georgia, 'Times New Roman', serif;
+    line-height: 1.5;
+  }
+  main {
+    max-width: 760px;
+    margin: 0 auto;
+    padding-block: 64px 48px;
+  }
+  h1 {
+    font-size: 2.6rem;
+    margin: 0 0 4px;
+  }
+  .tagline {
+    color: var(--muted);
+    font-size: 1.15rem;
+    margin: 0 0 40px;
+  }
+  .tagline a { color: inherit; }
+  h2 {
+    font-size: 1.05rem;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--muted);
+    border-bottom: 1px solid var(--line);
+    padding-bottom: 8px;
+    margin: 48px 0 20px;
+  }
+  .card {
+    display: block;
+    padding: 18px 20px;
+    margin-bottom: 14px;
+    border: 1px solid var(--line);
+    border-radius: 10px;
+    text-decoration: none;
+    color: inherit;
+    transition: border-color 0.15s, transform 0.15s;
+  }
+  .card:hover {
+    border-color: var(--accent);
+    transform: translateY(-1px);
+  }
+  .card .title {
+    font-size: 1.25rem;
+    margin: 0 0 4px;
+  }
+  .card .desc {
+    color: var(--muted);
+    font-size: 0.95rem;
+    margin: 0;
+  }
+  .card.primary {
+    border-color: var(--accent);
+    background: #f3f8ff;
+  }
+  footer {
+    margin-top: 56px;
+    padding-top: 20px;
+    border-top: 1px solid var(--line);
+    color: var(--muted);
+    font-size: 0.9rem;
+  }
+  footer a { color: inherit; }
+  code {
+    background: #f1f3f5;
+    padding: 1px 6px;
+    border-radius: 4px;
+    font-size: 0.9em;
+  }
+</style>
+</head>
+<body>
+<main>
+
+  <h1>Flides</h1>
+  <p class="tagline">HTML5 slides with javascript, zoomable, built on a fork of <a href="https://github.com/impress/impress.js">impress.js</a>. See the <a href="https://github.com/nathanael-fijalkow/Flides">source</a> for how it works.</p>
+
+  <h2>Demo</h2>
+  <a class="card primary" href="Demo/">
+    <p class="title">Flides demo</p>
+    <p class="desc">A short tour of every feature: slide steps, navigation shortcuts, SVG animation, partial and full overviews, backup slides.</p>
+  </a>
+
+  <h2>Examples</h2>
+  <a class="card" href="2019-01-23-CAALM_Universal_Graphs/">
+    <p class="title">Universal graphs for parity and mean payoff games</p>
+    <p class="desc">CAALM, 2019-01-23</p>
+  </a>
+  <a class="card" href="2019-06-05-ForMaL-Cachan/">
+    <p class="title">Program Synthesis</p>
+    <p class="desc">ForMaL, Cachan, 2019-06-05</p>
+  </a>
+
+  <h2>Make your own</h2>
+  <a class="card" href="starter-kit/">
+    <p class="title">Starter kit</p>
+    <p class="desc">A minimal, heavily-commented template deck - copy it and edit, or run <code>npm run new-deck</code> from the repo.</p>
+  </a>
+
+  <footer>
+    Made by <a href="https://github.com/nathanael-fijalkow">Nathanaël Fijalkow</a>. Questions and comments welcome on <a href="https://github.com/nathanael-fijalkow/Flides">GitHub</a>.
+  </footer>
+
+</main>
+</body>
+</html>
