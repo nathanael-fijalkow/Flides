@@ -886,14 +886,13 @@ SOFTWARE.
         // Trigger flides action (next or prev) on keyup.
         // Supported keys are:
 
-	// [right] - either uncovers the next element in the current slide, or goes to the next
+	// [right] [down] [pg down] - either uncovers the next element in the current slide, or goes to the next slide
+        // [left] [up] [pgup] - hides the reveals of the current slide, or goes to the previous slide
         // [space] - use the animations from the current slide
 
-        // [up] [left] [pgup] - goes to the previous slide
-	// [down] [pg down] - uncovers all elements of the current slide
-
-        // [backspace] - start over,
-        // [enter] - go to the final overview,
+        // [enter] - uncovers every element of the current slide at once (quick mode),
+	// [backspace] - start over,
+        // [shift] - go to the final overview,
         document.addEventListener("keyup", function ( event ) {
             if ( ( event.keyCode == 8 ) || ( event.keyCode == 13 ) || ( event.keyCode >= 32 && event.keyCode <= 34 ) || (event.keyCode >= 37 && event.keyCode <= 40) 
 		|| ( event.keyCode == 66 ) || ( event.keyCode == 16 )) {
