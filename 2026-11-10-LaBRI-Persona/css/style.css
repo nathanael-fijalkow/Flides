@@ -1,0 +1,508 @@
+/*
+   This file has two parts:
+     1. a generic CSS reset + base typography (safe to tweak: sizes,
+        colors, the "a" link style, etc.)
+     2. the "Slides specific part" below - the opacity/visibility rules
+        that make step reveal, token animations and the overview modes
+        work. Leave those alone unless you know what you're changing.
+
+   Add your own per-slide rules (image widths, custom color classes,
+   etc.) at the bottom of this file as your talk grows.
+*/
+
+html, body, div, span, applet, object, iframe,
+h1, h2, h3, h4, h5, h6, p, blockquote, pre,
+a, abbr, acronym, address, big, cite, code,
+del, dfn, em, img, ins, kbd, q, s, samp,
+small, strike, strong, sub, sup, tt, var,
+b, u, i, center,
+dl, dt, dd, ol, ul, li,
+fieldset, form, label, legend,
+table, caption, tbody, tfoot, thead, tr, th, td,
+article, aside, canvas, details, embed,
+figure, figcaption, footer, header, hgroup,
+menu, nav, output, ruby, section, summary,
+time, mark, audio, video {
+    margin: 0;
+    padding: 0;
+    border: 0;
+    font-size: 100%;
+    font: inherit;
+    vertical-align: baseline;
+}
+
+/* HTML5 display-role reset for older browsers */
+article, aside, details, figcaption, figure,
+footer, header, hgroup, menu, nav, section {
+    display: block;
+}
+body {
+    line-height: 1;
+}
+ol, ul {
+    list-style: none;
+}
+blockquote, q {
+    quotes: none;
+}
+blockquote:before, blockquote:after,
+q:before, q:after {
+    content: '';
+    content: none;
+}
+
+table {
+    border-collapse: collapse;
+    border-spacing: 0;
+}
+
+/* ==========================================================================
+   Theme: light on ink. Every slide artwork in img/ has a transparent
+   background, so the slides float on the global backdrop without edges.
+   ========================================================================== */
+
+:root {
+    --ink:    #0b0f1d;
+    --text:   #eee7d8;
+    --muted:  #a3aac0;
+    --gold:   #f3b848;
+    --teal:   #4fd1c5;
+    --coral:  #ff6a5c;
+    --rose:   #ff8fa8;
+    --violet: #a594ff;
+    --cyan:   #7cc4ff;
+    --sans:   "Avenir Next", "Helvetica Neue", Helvetica, Arial, sans-serif;
+    --serif:  "PT Serif", Georgia, serif;
+    --glow:   0 0 14px rgba(11,15,29,.95), 0 0 4px rgba(11,15,29,.95);
+}
+
+html, body {
+    background: var(--ink);
+    color: var(--text);
+}
+
+body {
+    font-family: var(--serif);
+    min-height: 740px;
+    line-height: 1;
+    overflow: hidden;
+}
+
+b, strong { font-weight: bold }
+i, em { font-style: italic }
+
+/* colour words */
+gold   { color: var(--gold); }
+teal   { color: var(--teal); }
+coral  { color: var(--coral); }
+rose   { color: var(--rose); }
+violet { color: var(--violet); }
+cyan   { color: var(--cyan); }
+
+a {
+    color: inherit;
+    text-decoration: none;
+    border-bottom: 1px solid rgba(243,184,72,.5);
+    transition: .3s;
+}
+a:hover { color: var(--gold); }
+
+/* --- slides --------------------------------------------------------------- */
+
+.step {
+    position: relative;
+    width: 900px;
+    height: 620px;
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+    font-family: var(--serif);
+    font-size: 23px;
+    line-height: 1.45;
+    color: var(--text);
+    text-shadow: var(--glow);
+    transition: opacity .1s;
+}
+
+/* full-bleed artwork behind the slide */
+.step > img.art {
+    position: absolute;
+    left: 0; top: 0;
+    width: 900px; height: 620px;
+    max-width: none;
+    pointer-events: none;
+    user-select: none;
+}
+
+/* a block of text placed on the slide */
+.txt {
+    position: absolute;
+    left: 56px;
+    top: 52px;
+    width: 340px;
+}
+
+.kicker {
+    font-family: var(--sans);
+    font-size: 13px;
+    font-weight: 600;
+    letter-spacing: .22em;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 14px;
+}
+.kicker .num { color: var(--muted); margin-right: .7em; }
+
+h1, h2, h3 { font-weight: normal; text-align: left; }
+
+h1 {
+    font-size: 70px;
+    line-height: 1.02;
+    letter-spacing: -.01em;
+}
+
+h2 {
+    font-size: 44px;
+    line-height: 1.08;
+    margin-bottom: 22px;
+    letter-spacing: -.005em;
+}
+
+h2 em, h1 em { color: var(--gold); }
+
+p { margin: 0 0 14px 0; }
+
+.lead { font-size: 25px; }
+.small { font-size: 18px; line-height: 1.45; }
+.tiny  { font-size: 14px; line-height: 1.4; color: var(--muted); }
+.muted { color: var(--muted); }
+.cite  { font-size: 14px; color: var(--muted); font-style: italic; white-space: nowrap; }
+
+.rule {
+    width: 54px; height: 2px; margin: 18px 0;
+    background: linear-gradient(90deg, var(--gold), rgba(243,184,72,0));
+}
+
+/* labels written on top of an artwork, positioned in % of the slide */
+.label {
+    position: absolute;
+    transform: translate(10px, -50%);
+    font-style: italic;
+    font-size: 15px;
+    color: var(--muted);
+    white-space: nowrap;
+}
+.label.big { font-size: 22px; color: var(--gold); font-style: normal; letter-spacing: .02em; }
+.label.left { transform: translate(calc(-100% - 12px), -50%); }
+
+/* small rounded badge, e.g. the venue of a paper */
+.badge {
+    display: inline-block;
+    font-family: var(--sans);
+    font-size: 13px;
+    font-weight: 700;
+    letter-spacing: .16em;
+    text-transform: uppercase;
+    color: var(--ink);
+    text-shadow: none;
+    background: var(--gold);
+    padding: 6px 13px 5px;
+    border-radius: 30px;
+    box-shadow: 0 0 22px rgba(243,184,72,.55);
+    vertical-align: middle;
+}
+
+/* a quotation from a model */
+.quote {
+    font-size: 21px;
+    font-style: italic;
+    color: var(--coral);
+    border-left: 2px solid var(--coral);
+    padding: 2px 0 2px 16px;
+    margin: 6px 0 14px;
+}
+
+/* a thin framed note */
+.note {
+    position: absolute;
+    border: 1px solid rgba(243,184,72,.45);
+    border-radius: 14px;
+    padding: 14px 18px;
+    background: rgba(11,15,29,.55);
+    font-size: 18px;
+    line-height: 1.4;
+}
+
+/* three-line definition list (3H) */
+.hhh { margin: 4px 0 16px; }
+.hhh div { margin-bottom: 10px; font-size: 20px; line-height: 1.35; }
+.hhh b { font-weight: normal; font-size: 23px; display: block; }
+
+ul.refs { margin: 0; padding: 0; list-style: none; }
+ul.refs li { font-size: 16px; line-height: 1.4; margin-bottom: 8px; padding-left: 0; color: var(--text); }
+ul.refs li::before { display: none; }
+ul.refs li span { color: var(--muted); }
+
+.flides-slide-number {
+    position: absolute;
+    right: 26px;
+    bottom: 18px;
+    font-family: var(--sans);
+    font-size: 12px;
+    letter-spacing: .15em;
+    color: var(--muted);
+    opacity: .7;
+    pointer-events: none;
+    text-shadow: none;
+}
+
+/* nested close-up slide (Sudoku cell): no number */
+#cell .flides-slide-number { display: none; }
+/* a dark matte behind the close-up, so the magnified Sudoku stays in the background */
+#cell::before {
+    content: "";
+    position: absolute;
+    left: -60px; top: -60px; right: -60px; bottom: -60px;
+    background: radial-gradient(closest-side, rgba(11,15,29,.92) 55%, rgba(11,15,29,0));
+    opacity: 0;
+    transition: opacity .8s;
+}
+.flides-on-cell #cell::before { opacity: 1; }
+
+/*
+	Slides specific part
+*/
+
+#overview { 
+    display: none 
+}
+
+#flides { 
+    pointer-events: auto 
+}
+
+/*
+ opacity issues for animations (token)
+*/
+
+.token {
+    opacity: 0;
+}
+
+.token_invisible_past {
+    opacity: 0;
+}
+
+.token_invisible_future {
+    opacity: 0;
+}
+
+.token_visible {
+    opacity: 1;
+}
+
+/*
+ opacity issues for steps
+*/
+
+.step[data-fixed="1"] { 
+     opacity: 1;
+}
+
+.step.active { 
+     opacity: 1;
+}
+
+.step {
+     opacity: .1;
+}
+
+/*
+ opacity issues for slide_steps
+*/
+
+.slide_step.slide_step_visible { 
+     opacity: 1;
+}
+
+.slide_step.slide_step_hidden { 
+     opacity: .1;
+}
+
+.slide_step { 
+     opacity: .1;
+}
+
+/*
+ opacity issues for overview
+*/
+
+.flides-on-overview_intermediate .step.seen {
+    opacity: 1;
+}
+
+.flides-on-overview_intermediate .slide_step { 
+     opacity: 1;
+}
+
+.flides-on-overview .step {
+    opacity: 1;
+    cursor: pointer;
+}
+
+.flides-on-overview .slide_step {
+    opacity: 1;
+}
+
+/*
+ corner menu linking to the backup slides (budget, timeline, CV). It lives
+ outside #flides (a sibling in the body, see index.html) so the canvas
+ pan/zoom transform never touches it - position: fixed then places it in
+ the actual top-right of the screen instead of some point on the canvas.
+ Shown only while the overview is on screen.
+*/
+#backup-links {
+    display: none;
+    position: fixed;
+    top: 24px;
+    right: 24px;
+    z-index: 10;
+
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 8px;
+
+    font-family: 'PT Sans', sans-serif;
+    font-size: 18px;
+}
+
+body.flides-on-overview #backup-links {
+    display: flex;
+}
+
+#backup-links a {
+    padding: 6px 16px;
+    border-radius: 20px;
+    background: rgba(255,255,255,0.85);
+    box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+}
+
+/* backup menu, restyled for the dark theme */
+#backup-links { font-family: var(--sans); font-size: 15px; }
+#backup-links a {
+    color: var(--text);
+    border: 1px solid rgba(243,184,72,.5);
+    background: rgba(11,15,29,.85);
+    box-shadow: none;
+}
+
+/* ==========================================================================
+   Canvas: backdrop, section titles, intermediate overviews
+   ========================================================================== */
+
+/* one image under the whole canvas, in canvas units (BD_RECT in art/pieces.py) */
+#backdrop {
+    position: absolute;
+    left: -2300px;
+    top: -3000px;
+    width: 10400px;
+    height: 6400px;
+    max-width: none;
+    opacity: .38;
+    transition: opacity 1.2s ease-in-out;
+    pointer-events: none;
+    user-select: none;
+}
+/* quiet behind a slide, brighter when the camera zooms out */
+.flides-on-overview #backdrop,
+.flides-on-overview_intermediate #backdrop { opacity: .7; }
+
+/* section titles: fixed slides above each part, read on the overviews */
+.step.section {
+    height: 160px;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    align-items: center;
+    text-align: center;
+}
+.section .sec-num {
+    font-family: var(--sans);
+    font-size: 30px;
+    font-weight: 600;
+    letter-spacing: .4em;
+    margin-bottom: 2px;
+}
+.section .sec-name { font-size: 66px; line-height: 1.1; letter-spacing: -.005em; }
+.section.s1 .sec-num { color: var(--teal); }
+.section.s2 .sec-num { color: var(--coral); }
+.section.s3 .sec-num { color: var(--violet); }
+
+/* the intermediate overviews are camera targets only, like #overview */
+#overview_intermediate { display: none; }
+/* they show the talk so far: keep the references backup out of them */
+.flides-on-overview_intermediate #references { opacity: .1; }
+
+/* ==========================================================================
+   Per-slide layout
+   ========================================================================== */
+
+/* title */
+#title .txt { top: 58px; width: 760px; }
+#title h1 { margin-bottom: 18px; }
+#title .sub { font-size: 25px; font-style: italic; color: var(--muted); max-width: 640px; }
+#title .who { position: absolute; left: 56px; bottom: 46px; font-size: 21px; line-height: 1.4; }
+#title .who .muted { font-size: 17px; }
+#title .event { position: absolute; right: 56px; bottom: 50px; text-align: right; font-size: 15px; line-height: 1.5; color: var(--muted); }
+
+/* games: title on top, captions under the two pieces */
+#games .txt { width: 790px; top: 40px; }
+#games h2 { margin-bottom: 0; }
+#games .cap { position: absolute; top: 436px; width: 330px; font-size: 18px; line-height: 1.42; }
+#games .cap b { font-weight: normal; color: var(--gold); font-size: 21px; }
+#games .cap.l { left: 66px; }
+#games .cap.r { left: 470px; }
+#games .cap.r b { color: var(--teal); }
+#games .punch { position: absolute; left: 0; right: 0; top: 586px; text-align: center; font-size: 19px; font-style: italic; }
+
+/* sudoku */
+#sudoku .txt { width: 330px; top: 46px; }
+#sudoku h2 { margin-bottom: 10px; }
+#sudoku .paper { font-size: 16px; font-style: italic; color: var(--muted); margin: 12px 0 18px; line-height: 1.35; }
+#sudoku .small { margin-bottom: 9px; }
+
+/* the close-up inside the Sudoku cell */
+#cell .side { position: absolute; top: 236px; width: 196px; font-size: 21px; line-height: 1.4; }
+#cell .side.l { left: 36px; text-align: right; }
+#cell .side.r { left: 668px; }
+
+/* alignment, 3H, emergent misalignment, personas: text on the left */
+#interp .txt, #directions .txt, #fork .txt, #hhh .txt, #em .txt, #personas .txt { width: 352px; }
+#hhh .txt { width: 330px; top: 40px; }
+#em .txt { top: 44px; }
+
+/* the constellation slides: text across the top */
+#axis .txt { width: 480px; top: 40px; }
+#drift .txt { width: 560px; top: 40px; }
+#drift .note { left: 520px; top: 438px; width: 330px; }
+
+/* ongoing work */
+#sleep .txt { width: 540px; top: 36px; }
+#sleep h2 { margin-bottom: 14px; }
+
+/* closing */
+#finale .txt { width: 360px; top: 70px; }
+#finale .take { font-size: 21px; line-height: 1.4; margin-bottom: 14px; padding-left: 16px; border-left: 2px solid rgba(243,184,72,.6); }
+#finale .refs-link { position: absolute; left: 56px; bottom: 44px; font-family: var(--sans); font-size: 13px; letter-spacing: .15em; text-transform: uppercase; }
+
+/* references (backup) */
+#references .txt { width: 790px; top: 44px; }
+
+/* Phone navigation toolbar (added by the engine on touch screens): dark,
+   to match the deck. The engine sets inline styles, hence !important. */
+#flides-phone-nav {
+    background: rgba(11,15,29,.88) !important;
+    box-shadow: 0 -1px 0 rgba(243,184,72,.25) !important;
+}
+#flides-phone-nav button { color: var(--text) !important; }
+#flides-phone-nav button span + span { color: var(--muted) !important; }

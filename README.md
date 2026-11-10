@@ -12,7 +12,7 @@ The core visualisation features (zoom in particular) is based on [impress.js](ht
 * parts: group slides so their coordinates are relative to a local origin instead of the whole canvas (see below)
 
 You can check out this basic [demo](https://github.com/nathanael-fijalkow/Flides/tree/master/Demo) I made — it doubles as a tour of every feature above.
-Please find [here](https://github.com/nathanael-fijalkow/Flides/tree/master/2019-01-23-CAALM_Universal_Graphs) and [here](https://github.com/nathanael-fijalkow/Flides/tree/master/2019-06-05-ForMaL-Cachan) two complete sets of slides.
+Please find [here](https://github.com/nathanael-fijalkow/Flides/tree/master/2019-01-23-CAALM_Universal_Graphs) and [here](https://github.com/nathanael-fijalkow/Flides/tree/master/2019-06-05-ForMaL-Cachan) two complete sets of slides. A more recent example is [this talk](https://github.com/nathanael-fijalkow/Flides/tree/master/2026-11-10-LaBRI-Persona) from 2026, which places its three sections in parts, shows an intermediate overview between them, and uses generated artwork (the Python scripts that draw it are in its `art/` folder).
 
 Starting a new talk? [`starter-kit/`](starter-kit) is a minimal, heavily-commented template — copy it (or run `npm run new-deck -- <folder-name> "Talk Title"` to do that for you and populate the shared assets in one step) and edit away.
 
